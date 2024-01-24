@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/firstLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notiUsageTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="10sp"
+            android:text="00-00시 사용시간: "/>
+
+        <TextView
+            android:id="@+id/notiUsageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="10sp"
+            android:text="00:00"/>
+
+        <TextView
+            android:id="@+id/notiBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="10sp"
+            android:text="  ||  "/>
+
+        <TextView
+            android:id="@+id/notiTotalStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="10sp"
+            android:text="오늘 차감(총 차감): "/>
+
+        <TextView
+            android:id="@+id/notiTotalLossGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lossColor"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:text="@string/todayLossTotalLoss"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notiThisIncentive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="10sp"
+            android:text="@string/ifMissionFailed"/>
+
+        <TextView
+            android:id="@+id/notiThisIncentiveVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lossColor"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:textSize="10sp"
+            android:text="@string/notiThisIncentiveString"/>
+
+
+        <TextView
+            android:id="@+id/notiThisSuccessRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:layout_marginStart="5dp"
+            android:textSize="10sp"
+            android:text="@string/notiThisSuccessRateString"/>
+
+        <!--
+        <ImageView
+            android:id="@+id/gold1"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold2"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold3"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold4"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold5"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+
+        <ImageView
+            android:id="@+id/gold6"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold7"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold8"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold9"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold10"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold11"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold12"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold13"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold14"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold15"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold16"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold17"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:tint="#D29953"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+
+        <TextView
+            android:id="@+id/notiTodayRemainGoldText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="]"/>
+
+        -->
+    </LinearLayout>
+
+
+
+</LinearLayout>

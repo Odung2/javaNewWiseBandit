@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/firstLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dailynotiTotalStatisticsText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="총 "/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalLossGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lossColor"
+            android:textSize="13dp"
+            android:text="00,000골드 "/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalStatisticsText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="차감"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/dailynotiYesterdayStatisticsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="어제 차감된 골드: "/>
+
+        <TextView
+            android:id="@+id/dailynotiYesterdayGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lossColor"
+            android:textSize="13dp"
+            android:text="- 0,000골드"/>
+
+        <!--
+        <TextView
+            android:id="@+id/dailynotiTotalGoldStatisticsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="총 남은 골드: "/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AE905E"
+            android:textSize="13dp"
+            android:text="000,000골드"/>
+        -->
+
+    </LinearLayout>
+
+</LinearLayout>

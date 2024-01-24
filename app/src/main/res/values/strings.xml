@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">GoldenTime</string>
+    <string name="confirm">이메일 등록하기</string>
+    <string name="registerInfo">이메일 주소를 입력하세요.</string>
+    <string name="registerHint">예) aaa@example.com</string>
+    <string name="baselineTextVal">GoldenTime 앱이 실행 중입니다.</string>
+
+    <!-- Basic Frame -->
+    <string name="currentDateTextStr">00월 00일</string>
+    <string name="dayStatisticsTextStr">일일 통계</string>
+    <string name="dayUsageTimeTextStr">폰 사용 시간</string>
+    <string name="dayUsageTimeTextVal">00시간 00분 00초</string>
+    <string name="daySuccessTextStr">성공 횟수</string>
+    <string name="daySuccessTextVal">0</string>
+    <string name="dayFailTextStr">실패 횟수</string>
+    <string name="dayFailTextVal">0</string>
+
+    <string name="totalStatisticsTextStr">누적 통계</string>
+    <string name="totalSuccessTextStr">총 성공 횟수</string>
+    <string name="totalSuccessVal">0</string>
+    <string name="totalFailTextStr">총 실패 횟수</string>
+    <string name="totalFailVal">0</string>
+
+    <string name="leftarrow_description">left arrow description</string>
+    <string name="rightarrow_description">right arrow description</string>
+    <string name="calendarImageDescription">calendar image description</string>
+    <string name="equalImgDescription">equal image description</string>
+    <string name="minusImgDescription">minus image description</string>
+
+    <!-- Loss Frame -->
+    <string name="dayLossGoldTextStr">오늘 차감 골드</string>
+    <string name="dayLossGoldVal">0골드</string>
+    <string name="dayLossMoneyVal">(0원)</string>
+    <string name="totalLossGoldTextStr">총 차감 골드</string>
+    <string name="totalTextFormStr">전체 지급받은 골드 - 차감 골드 = 남은 골드</string>
+    <string name="totalGoldVal">178,500골드</string>
+    <string name="totalMoneyVal">17,850원</string>
+    <string name="totalLossGoldVal">0골드</string>
+    <string name="totalLossMoneyVal">(0원)</string>
+    <string name="totalGainGoldVal">0골드</string>
+    <string name="totalGainMoneyVal">0원</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="cardTitleText">%1$s (%2$s - %3$s)</string>
+    <string name="cardDescriptionText">Q. 얼마를 차감한다고 경고했을 때 절제를 잘했을까요?</string>
+    <!--<string name="likelihoodVal">%1$d%%</string>
+    <string name="optimalIncentiveVal">%1$d 골드</string>
+    <string name="timeSlotVal">%1$d 개</string>
+    <string name="summaryTextVal">%1$d 번 추적한 결과, 차감 골드가 %2$d 골드일 때 핸드폰 사용을 절제할 가능성이 %3$d%%로 가장 높습니다.</string>-->
+    <string name="graphName">차감 금액별 절제 성공률</string>
+    <string name="todayLossTotalLoss">-%1$d골드(-%2$d골드)</string>
+    <string name="ifMissionFailed">%1$d-%2$d시 미션 실패 시: </string>
+    <string name="notiThisIncentiveString">%1$d골드 차감</string>
+    <string name="notiThisSuccessRateString">(미션 성공률: %1$d%%)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

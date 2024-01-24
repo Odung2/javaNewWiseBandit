@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    card_view:cardBackgroundColor="@color/cardview_light_background"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="3dp"
+    card_view:contentPadding="4dp">
+
+    <RelativeLayout
+        android:id="@+id/cardViewBaseLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/cardTitleTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="15dp"
+            android:text="@string/cardTitleText"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/cardDescriptionTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardTitleTextId"
+            android:layout_marginBottom="15dp"
+            android:text="@string/cardDescriptionText"
+            android:textColor="@color/textDefaultColor" />
+        <!--
+        <LinearLayout
+            android:id="@+id/contextInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardDescriptionTextId"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <RelativeLayout
+                android:id="@+id/likelihoodLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/likelihoodValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="5dp"
+                    android:text="54%"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/likelihoodTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/likelihoodValId"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="5dp"
+                    android:text="likelihood to\nregulate\nphone use"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/optimalIncentiveLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5">
+
+                <TextView
+                    android:id="@+id/optimalIncentiveTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:text="Optimal\nIncentive deduction"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/optimalIncentiveValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/optimalIncentiveTextId"
+                    android:layout_marginVertical="5dp"
+                    android:text="25 gold"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/optimalIncentiveSubTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/optimalIncentiveValId"
+                    android:text="for regulation success"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/timeSlotLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:id="@+id/timeSlotValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginVertical="15dp"
+                    android:text="22 timeslots"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/timeSlotDescTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/timeSlotValId"
+                    android:text="tracked \n so far"
+                    android:textAlignment="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toggleButtonSpace"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/contextInfoLayout"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="340dp"
+                android:layout_height="5dp"
+                android:background="@android:color/transparent" />
+
+            <ImageButton
+                android:id="@+id/expandableBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_weight="1"
+                card_view:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+        </LinearLayout>
+        -->
+        <LinearLayout
+            android:id="@+id/detailMABLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardDescriptionTextId"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/deductedAmountTextLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/deductedAmountTextId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/graphName"
+                        android:textColor="@color/textDefaultColor" />
+
+                </RelativeLayout>
+                <!--
+                <RelativeLayout
+                    android:id="@+id/successRateTextLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/successRateTextId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Regulation success rate"
+                        android:textColor="@color/textDefaultColor" />
+
+                </RelativeLayout>
+                -->
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/progressViewId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                tools:itemCount="3" />
+            <!--
+            <TextView
+                android:id="@+id/summaryTextValId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Based on the 22 tracked time slots so far, it is most likely (~54% likelihood) that you regulate better when incentive amount to be deducted are set to 25 Gold."
+                android:textColor="@color/textDefaultColor" />
+            -->
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

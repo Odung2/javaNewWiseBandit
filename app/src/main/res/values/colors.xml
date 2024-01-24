@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#00574B</color>
+
+    <color name="windowBackground">#efefef</color>
+
+    <color name="textValColor">#464646</color>
+    <color name="textDefaultColor">#464646</color>
+
+    <color name="gainColor">#008577</color>
+    <color name="lossColor">#D81B60</color>
+
+</resources>
