@@ -20,6 +20,12 @@ import android.widget.RemoteViews;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.javanewwisebandit.R;
 import com.example.javanewwisebandit.goldentime_v1.Activity.MainActivity;
 import com.example.javanewwisebandit.goldentime_v1.Config.Config;
@@ -30,12 +36,18 @@ import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.AppDatabas
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.AppDatabaseMABThread;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.UpdateTuple;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.ViewTuple;
+import com.example.javanewwisebandit.goldentime_v1.RoomDB.GoldenTimeDB.GoldenTimeDB;
+import com.example.javanewwisebandit.goldentime_v1.RoomDB.GoldenTimeDB.UserInfo;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesDateTimeProcess;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesLocalDBProcess;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesSharedPrefDataProcess;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -165,10 +177,80 @@ public class OnTimeService extends Service {
 
     /** 새로운 incentive를 뽑아서 sharedpreference에 저장 **/
     private void chooseNewIncentive(){
-        int incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
-        Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
-        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "incentive", incentive);
+//        int incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
+//        Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
+//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "incentive", incentive);
+        getUserIncentiveFrame(new IncentiveFrameListener() {
+            @Override
+            public void onIncentiveFrameReceived(String incentiveFrame) {
+                int incentive;
+                if (incentiveFrame.equals("Constant")) {
+                    incentive = chooseConstantIncentive();
+                } else if (incentiveFrame.equals("Random")) {
+                    incentive = chooseRandomIncentive();
+                } else if (incentiveFrame.equals("MAB")) {
+                    incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
+                } else {
+                    incentive = GoldenTimeDB.getInstance(getApplicationContext()).dailyStatDao().getLatestIncentive();
+                    Log.d("AA", "Error occur: No Exist incentiveFrame Type - set incentive: " + incentive);
+                }
+                UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(), "incentive", incentive);
+                Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
+            }
+        });
     }
+    // 인터페이스 정의: 서버 응답 처리를 위한 콜백
+    interface IncentiveFrameListener {
+        void onIncentiveFrameReceived(String incentiveFrame);
+    }
+
+    // 메서드 수정
+    private void getUserIncentiveFrame(IncentiveFrameListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserInfo userInfo = GoldenTimeDB.getInstance(getApplicationContext()).userInfoDao().getFirstUserInfo();
+                if (userInfo != null) {
+                    String url = "http://your-server.com/goldentime/userincentive/" + userInfo.id;
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        String incentiveFrame = jsonResponse.getString("incentiveFrame");
+                                        listener.onIncentiveFrameReceived(incentiveFrame);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // 오류 처리
+                        }
+                    });
+
+                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    queue.add(stringRequest);
+                }
+            }
+        }).start();
+    }
+
+
+
+    private int chooseConstantIncentive() {
+        return 100; // 상수 인센티브 값
+    }
+
+    private int chooseRandomIncentive() {
+        int[] possibleIncentives = {100, 200, 300, 400};
+        int randomIndex = new Random().nextInt(possibleIncentives.length);
+        return possibleIncentives[randomIndex];
+    }
+
 
     /** 폰 다시 켰을 때 이전 타임슬롯의 사용 시간 통계 make-up 해주는 함수 **/
     private boolean makeUpUsageTimeStats(int lastTimeSlot, boolean isAppChanged) {

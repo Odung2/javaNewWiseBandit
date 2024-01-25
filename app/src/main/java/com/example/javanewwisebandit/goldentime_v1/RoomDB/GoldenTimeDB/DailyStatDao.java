@@ -15,6 +15,9 @@ public interface DailyStatDao {
     @Query("SELECT * FROM DailyStat WHERE id IN (:statIds)")
     List<DailyStat> loadAllByIds(int[] statIds);
 
+    @Query("SELECT incentive FROM DailyStat ORDER BY Updated DESC LIMIT 1")
+    int getLatestIncentive();
+
     @Insert
     void insertAll(DailyStat... dailyStats);
 

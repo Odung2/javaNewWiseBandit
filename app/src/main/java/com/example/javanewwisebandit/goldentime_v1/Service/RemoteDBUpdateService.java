@@ -138,6 +138,12 @@ public class RemoteDBUpdateService extends Service {
     private void saveUserInfo(String sendObjStr, String serverUrl){
         /** RemoteDB 업데이트 하는 곳 **/
         String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(getApplicationContext(), "userName");
+
+//        UserInfo userInfo = new UserInfo();
+//        userInfo.user = userName;
+//        userInfo.frame = 1; // 그룹별 숫자 확인 필요
+//        userInfo.updated = sdf_all.format(new Date());
+
         try {
             JSONObject totalObject = new JSONObject();
             JSONObject jsonObject = new JSONObject();
@@ -148,15 +154,93 @@ public class RemoteDBUpdateService extends Service {
             jsonArray.put(jsonObject);
 
             totalObject.put(sendObjStr, jsonArray);
-            saveDataToRemoteDB(totalObject, sendObjStr, serverUrl);
+//            saveDataToRemoteDB(totalObject, sendObjStr, serverUrl);
+
+            // 서버에 데이터를 전송하고 응답을 기다립니다.
+            sendUserDataToRemoteDB(totalObject, serverUrl, userName);
         } catch (JSONException e) { e.printStackTrace();}
 
-        /** LocalDB 업데이트 하는 곳 **/
-        class InsertRunnable implements Runnable {
+//        /** LocalDB 업데이트 하는 곳 **/ => id 검색 문제로 현재 주석처리.
+//        class InsertRunnable implements Runnable {
+//
+//            @Override
+//            public void run() {
+//                UserInfo userInfo = new UserInfo();
+//                userInfo.user = userName;
+//                userInfo.frame = 1;
+//                userInfo.updated = sdf_all.format(new Date());
+//
+//                GoldenTimeDB.getInstance(getApplicationContext()).userInfoDao().insertAll(userInfo);
+//                Log.d(TAG, "userInfo insert");
+//            }
+//        }
+//        InsertRunnable insertRunnable = new InsertRunnable();
+//        Thread addThread = new Thread(insertRunnable);
+//        addThread.start();
+    }
+    //후에 User의
+    private void sendUserDataToRemoteDB(JSONObject dataObj, String serverUrl, String userName) {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
 
+        try {
+            final String requestBody = dataObj.toString();
+
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    serverUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // 서버로부터 응답 받음
+                            try {
+                                JSONObject responseObj = new JSONObject(response);
+                                int serverUserId = responseObj.getInt("id"); // 서버에서 반환된 ID
+
+                                // 로컬 데이터베이스에 서버 ID 저장
+                                saveServerIdToLocalDatabase(serverUserId, userName);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // 오류 처리
+                            error.printStackTrace();
+                        }
+                    }
+            ) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        return null;
+                    }
+                }
+            };
+
+            request.setShouldCache(false);
+            requestQueue.add(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveServerIdToLocalDatabase(int serverId, String userName) {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 UserInfo userInfo = new UserInfo();
+                userInfo.id = serverId;
                 userInfo.user = userName;
                 userInfo.frame = 1;
                 userInfo.updated = sdf_all.format(new Date());
@@ -164,10 +248,7 @@ public class RemoteDBUpdateService extends Service {
                 GoldenTimeDB.getInstance(getApplicationContext()).userInfoDao().insertAll(userInfo);
                 Log.d(TAG, "userInfo insert");
             }
-        }
-        InsertRunnable insertRunnable = new InsertRunnable();
-        Thread addThread = new Thread(insertRunnable);
-        addThread.start();
+        }).start();
     }
 
     /*

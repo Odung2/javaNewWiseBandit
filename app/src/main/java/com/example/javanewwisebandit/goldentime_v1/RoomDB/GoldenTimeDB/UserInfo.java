@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class UserInfo {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     public int id;
 
     @ColumnInfo(name="User")   //DB에 저장되는 필드명
