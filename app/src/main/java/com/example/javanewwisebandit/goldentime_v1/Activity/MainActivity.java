@@ -3,12 +3,14 @@ package com.example.javanewwisebandit.goldentime_v1.Activity;
 import android.Manifest;
 import android.app.AppOpsManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -101,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
             boolean isEmailRegistered = UtilitiesSharedPrefDataProcess.checkRegisterEmailStatus(getApplicationContext());
             boolean isBatteryOptimizationPermission = checkBatteryOptimizationPermission();
             boolean isGetUsageStatsPermission = checkUsageStatsPermission();
+            boolean isNotificationPermission = checkNotificationPermission();
 
             /* 이메일 등록했는 지, 설정해줘야할 기본 퍼미션들 잘 설정했는 지 확인하는 로직*/
-            if(isEmailRegistered && isGetUsageStatsPermission && isBatteryOptimizationPermission) {
+            if(isEmailRegistered && isGetUsageStatsPermission && isBatteryOptimizationPermission & isNotificationPermission) {
                 /* 모든 퍼미션 설정 및 이메일 등록을 정상적으로 완료한 경우 */
 
                 UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(getApplicationContext(),"isAppChange",true);
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(!isGetUsageStatsPermission)  checkUsageStatsPermission();
                 if(!isBatteryOptimizationPermission)    checkBatteryOptimizationPermission();
+                if(!checkNotificationPermission()) checkNotificationPermission();
             }
         }
     }
@@ -326,6 +330,28 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+    private boolean checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (!notificationManager.areNotificationsEnabled()) {
+                // 알림 권한이 비활성화된 경우 사용자를 알림 설정 화면으로 이동
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivity(intent);
+                return false;
+            }
+            return true;
+        } else {
+            // 안드로이드 7.0 미만에서는 알림 권한을 직접 확인할 수 없으므로 다른 방식
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.fromParts("package", getPackageName(), null));
+            return true;
+        }
+    }
+
+
 
 
 }
