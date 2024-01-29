@@ -175,30 +175,6 @@ public class OnTimeService extends Service {
         }
     }
 
-    /** 새로운 incentive를 뽑아서 sharedpreference에 저장 **/
-    private void chooseNewIncentive(){
-//        int incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
-//        Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
-//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "incentive", incentive);
-        getUserIncentiveFrame(new IncentiveFrameListener() {
-            @Override
-            public void onIncentiveFrameReceived(String incentiveFrame) {
-                int incentive;
-                if (incentiveFrame.equals("Constant")) {
-                    incentive = chooseConstantIncentive();
-                } else if (incentiveFrame.equals("Random")) {
-                    incentive = chooseRandomIncentive();
-                } else if (incentiveFrame.equals("MAB")) {
-                    incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
-                } else {
-                    incentive = GoldenTimeDB.getInstance(getApplicationContext()).dailyStatDao().getLatestIncentive();
-                    Log.d("AA", "Error occur: No Exist incentiveFrame Type - set incentive: " + incentive);
-                }
-                UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(), "incentive", incentive);
-                Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
-            }
-        });
-    }
     // 인터페이스 정의: 서버 응답 처리를 위한 콜백
     interface IncentiveFrameListener {
         void onIncentiveFrameReceived(String incentiveFrame);
@@ -239,14 +215,40 @@ public class OnTimeService extends Service {
         }).start();
     }
 
+    /** 새로운 incentive를 뽑아서 sharedpreference에 저장 **/
+    private void chooseNewIncentive(){
+//        int incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
+//        Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
+//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "incentive", incentive);
+        getUserIncentiveFrame(new IncentiveFrameListener() {
+            @Override
+            public void onIncentiveFrameReceived(String incentiveFrame) {
+                int incentive;
+                if (incentiveFrame.equals("Constant")) {
+                    incentive = chooseConstantIncentive();
+                } else if (incentiveFrame.equals("Random")) {
+                    incentive = chooseRandomIncentive();
+                } else if (incentiveFrame.equals("MAB")) {
+                    incentive = Incentive.getInstance().choose(UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot)).intValue();
+                } else {
+                    incentive = GoldenTimeDB.getInstance(getApplicationContext()).dailyStatDao().getLatestIncentive();
+                    Log.d("AA", "Error occur: No Exist incentiveFrame Type - set incentive: " + incentive);
+                }
+                UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(), "incentive", incentive);
+                Log.d("AA", "Room DB Debugging, choose new incentive: " + incentive);
+            }
+        });
+    }
+
+
 
 
     private int chooseConstantIncentive() {
-        return 100; // 상수 인센티브 값
+        return 500; // 상수 인센티브 값
     }
 
     private int chooseRandomIncentive() {
-        int[] possibleIncentives = {100, 200, 300, 400};
+        int[] possibleIncentives = {200, 400, 600, 800};
         int randomIndex = new Random().nextInt(possibleIncentives.length);
         return possibleIncentives[randomIndex];
     }

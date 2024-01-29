@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).attach();
 
-            Toast.makeText(getApplicationContext(), "GoldenTime 메인화면입니다.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "GoldenTime 메인화면입니다.", Toast.LENGTH_SHORT).show();
         }
         else {
             /* 체크할 flag들 전부 가져옴 */
