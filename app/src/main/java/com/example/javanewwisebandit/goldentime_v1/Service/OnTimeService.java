@@ -88,15 +88,19 @@ public class OnTimeService extends Service {
             String action = intent.getAction();
             switch (action) {
                 case ACTION_NORMAL_START_SERVICE:
+                    Log.d("AA", "OnTimeService case: ACTION_NORMAL_START_SERVICE - initNormalCaseOnTimer() is to be running ");
                     initNormalCaseOnTimer();
                     break;
                 case ACTION_REBOOT_START_SERVICE:
+                    Log.d("AA", "OnTimeService case: ACTION_REBOOT_START_SERVICE - initNotNormalCaseOnTimer() is to be running ");
                     initNotNormalCaseOnTimer();
                     break;
                 case ACTION_SCREEN_UNLOCK_SERVICE:
+                    Log.d("AA", "OnTimeService case: ACTION_SCREEN_UNLOCK_SERVICE - startScreenOnTimer() is to be running ");
                     startScreenOnTimer();
                     break;
                 case ACTION_SCREEN_OFF_SERVICE:
+                    Log.d("AA", "OnTimeService case: ACTION_SCREEN_OFF_SERVICE - startScreenOffForegroundService() is to be running ");
                     startScreenOffForegroundService();
                     break;
             }
@@ -112,7 +116,13 @@ public class OnTimeService extends Service {
         currentTimeSlot = UtilitiesDateTimeProcess.getCurrentTimeHour(); //타임슬롯 설정
         int lastTimeSlot = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "lastTimeSlot");
 
-        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9)  showDailyNotification();
+        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9) {
+            Log.d("AA", "showDailyNotification() 시작");
+            showDailyNotification();
+        }else{
+            Log.d("AA", "isAppChanged 또는 isUpdateAfterAppchange 또는 currentTimeSlot 오류");
+
+        }
 
         /* 폰 껏다 켰는데 타임슬롯이 변경된 경우: 앞 선 데이터 저장(이전시간 타임슬롯으로 저장) */
         if(currentTimeSlot != lastTimeSlot) {
@@ -150,7 +160,7 @@ public class OnTimeService extends Service {
     private void updateIncentiveMAB() {
         //실제 DB 데이터 타입은 UpdateTuple.java 참고
         String context = UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot);
-        double incentive = 0; //DB에서 가져와야함
+        double incentive = 200; //DB에서 가져와야함
         double success = 0; //DB에서 가져와야함
 
         AppDatabaseMABThread thread = new AppDatabaseMABThread(context, getApplicationContext());
@@ -187,7 +197,7 @@ public class OnTimeService extends Service {
             public void run() {
                 UserInfo userInfo = GoldenTimeDB.getInstance(getApplicationContext()).userInfoDao().getFirstUserInfo();
                 if (userInfo != null) {
-                    String url = "http://your-server.com/goldentime/userincentive/" + userInfo.id;
+                    String url = "http://143.248.53.137:5000/goldentime/userincentive/" + userInfo.id;
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                             new Response.Listener<String>() {
@@ -285,8 +295,13 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(), "lastTimeSlot", currentTimeSlot);
 
         /* 중재앱 기간 중에 현재 타임슬롯이 9시이면: 일일 알림 노티 제공 */
-        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9) showDailyNotification();
-        
+        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9) {
+            Log.d("AA", "showDailyNotification() 시작");
+            showDailyNotification();
+        }else{
+            Log.d("AA", "isAppChanged 또는 isUpdateAfterAppchange 또는 currentTimeSlot 오류");
+
+        }
 
         /* 이전 타임슬롯 사용통계 저장 */
         boolean noFirstTrial = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"noFirstTrial");
