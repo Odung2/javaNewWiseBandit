@@ -5,27 +5,38 @@ One Paragraph of project description goes here / 프로젝트의 전반적인 �
 
 ## Getting Started / 어떻게 시작하나요?
 
-이 곳에서 설치에 관련된 이야기를 해주시면 좋습니다.
+```
+git clone <this repository>
+```
 
 ### Prerequisites / 선행 조건
 
 아래 사항들이 설치가 되어있어야합니다.
 
 ```
-예시
+SDK >= 34
+gradle pulgin version: 8.1.1
 ```
 
 ### Installing / 설치
 
 아래 사항들로 현 프로젝트에 관한 모듈들을 설치할 수 있습니다.
 
+#####in IDE: Android Studio
 ```
-예시
+Run app
+![image](https://github.com/Odung2/javaNewWiseBandit/assets/103209237/ebcec48b-3d32-436e-91d7-b045d287abc0)
+
+```
+or
+```
+Build > build APK(s)
+![image](https://github.com/Odung2/javaNewWiseBandit/assets/103209237/bb0019e9-b60c-4ffd-ab97-2e25dc474b1e)
 ```
 
 ## Running the tests / 테스트의 실행
 
-어떻게 테스트가 이 시스템에서 돌아가는지에 대한 설명을 합니다
+ㅇㅇㅇ
 
 ### 테스트는 이런 식으로 동작합니다
 
