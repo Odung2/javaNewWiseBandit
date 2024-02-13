@@ -1,6 +1,8 @@
 # Digital-wellbeing based on Multi-Objective Multi-Armed Bandit algorithm / 밴딧 알고리즘을 이용한 디지털 웰빙 앱
 
-
+| Dashboard | Notification |
+|--------|--------|
+|<img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="500"/>||
 
 <center><img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="500"/></center>
 
