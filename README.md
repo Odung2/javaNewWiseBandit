@@ -1,7 +1,8 @@
 # Digital-wellbeing based on Multi-Objective Multi-Armed Bandit algorithm / 밴딧 알고리즘을 이용한 디지털 웰빙 앱
 
-![image](https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20){: .center width="300" height="100"}
 
+
+<center><img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="100"/></center>
 
 One Paragraph of project description goes here / 프로젝트의 전반적인 내용에 대한 요약을 여기에 적습니다
 
