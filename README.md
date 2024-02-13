@@ -2,7 +2,7 @@
 
 | Dashboard | Notification |
 |--------|--------|
-|<img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="50%"/>|<img src="[https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20](https://github.com/Odung2/javaNewWiseBandit/assets/103209237/4b4660d4-d253-4663-9802-78a279da0056)" width="50%"/>|
+|<img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="50%"/>|<img src="https://github.com/Odung2/javaNewWiseBandit/assets/103209237/cbe4002f-ae00-4b91-b355-efecb40f6b20" width="50%"/>|
 
 
 One Paragraph of project description goes here / 프로젝트의 전반적인 내용에 대한 요약을 여기에 적습니다
