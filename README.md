@@ -18,6 +18,7 @@ git clone https://github.com/Odung2/javaNewWiseBandit.git
 아래 사항들이 설치가 되어있어야합니다.
 
 ```
+IDE: Android Studio
 SDK >= 34
 gradle pulgin version: 8.1.1
 ```
@@ -39,23 +40,28 @@ Build > build APK(s)
 
 
 
-### 테스트는 이런 식으로 동작합니다
+### 주요 인센티브 알고리즘
 
-왜 이렇게 동작하는지, 설명합니다
-
-```
-예시
-```
-
-### 테스트는 이런 식으로 작성하시면 됩니다
+##### Constant Incentvie
 
 ```
-예시
+폰 사용 절제 미션을 성공하면 매 시간마다 500 Gold를 받습니다.
+```
+
+##### Random Incentive
+
+```
+폰 사용 절제 미션을 성공하면 매 시간마다 200 ~ 800 사이의 임의의 Gold를 받습니다.
+```
+
+##### MAB Incentive
+
+```
+폰 사용 절제 미션을 성공하면 매 시간마다 Context 기반 200 ~ 800 사이의 Gold를 받습니다.
 ```
 
 ## Deployment / 배포
 
-Add additional notes about how to deploy this on a live system / 라이브 시스템을 배포하는 방법
 
 ## Built With / 누구랑 만들었나요?
 
@@ -64,7 +70,6 @@ Add additional notes about how to deploy this on a live system / 라이브 시�
 
 ## Contributiong / 기여
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. / [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) 를 읽고 이에 맞추어 pull request 를 해주세요.
 
 ## License / 라이센스
 
