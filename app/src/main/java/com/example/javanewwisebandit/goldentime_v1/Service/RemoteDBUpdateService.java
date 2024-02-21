@@ -1,11 +1,17 @@
 package com.example.javanewwisebandit.goldentime_v1.Service;
 
 import android.app.Service;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -34,14 +40,10 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-//import kr.ac.kaist.jypark.goldentime_v1.RoomDB.GoldenTimeDB.DailyStat;
-//import kr.ac.kaist.jypark.goldentime_v1.RoomDB.GoldenTimeDB.GoldenTimeDB;
-//import kr.ac.kaist.jypark.goldentime_v1.RoomDB.GoldenTimeDB.UsageStat;
-//import kr.ac.kaist.jypark.goldentime_v1.RoomDB.GoldenTimeDB.UserInfo;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesDateTimeProcess;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesSharedPrefDataProcess;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesUsageStatsDataProcess;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class RemoteDBUpdateService extends Service {
     public static final String ACTION_INITIAL_DATA_UPDATE = "ACTION_INITIAL_DATA_UPDATE_SERVICE";
@@ -53,6 +55,8 @@ public class RemoteDBUpdateService extends Service {
     public static final String BASE_SERVER_URL = "http://143.248.53.137:5000";
     /** 새로운 데이터 저장 서버 url **/
     public static final String EXPERIMENT_ADDRESS = BASE_SERVER_URL+"/usage_data";
+
+    public static final String INITIAL_USAGE_STATS_ADDRESS = BASE_SERVER_URL+"/usage_data/initial_usage_stats";
     public static final String USER_INFO_ADDRESS=BASE_SERVER_URL;
     public static final String DAILY_STAT_ADDRESS=BASE_SERVER_URL;
     public static final String USAGE_STAT_ADDRESS=BASE_SERVER_URL;
@@ -96,6 +100,7 @@ public class RemoteDBUpdateService extends Service {
                     saveOnTimeUpdateTimeMinSec(updateTimeStr, ustatsUpdateTimeStr,"InsertUpdateTime", UPDATETIME_INSERT_SERVER_ADDRESS);
                     /** userinfo에 등록 (Local & Remote) **/
                     saveUserInfo("UserInfo", EXPERIMENT_ADDRESS);
+                    updateInitialUsageStatsToServer(getApplicationContext(), INITIAL_USAGE_STATS_ADDRESS);
 
                     break;
                 case ACTION_LOG_DATA_INSERT:
@@ -283,6 +288,168 @@ public class RemoteDBUpdateService extends Service {
         }
         return null;
     }*/
+
+    /** 초기 UsageStats RawData 업데이트하는 함수 **/
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public List<UsageStats> collectInitialUsageStats(Context context) {
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        long currentTime = System.currentTimeMillis();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -14); // 2주 전부터
+        long startTime = calendar.getTimeInMillis();
+
+        return usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, currentTime);
+    }
+
+    public class InitialUsageStatsToJsonArray {
+        public JSONArray convertToJSONArray(List<UsageStats> usageStatsList, String userName) {
+            JSONArray jsonArray = new JSONArray();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat updatedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+            // 예를 들어, 하루를 24시간 타임슬롯으로 나눈 맵을 생성
+            Map<String, Long> appUsageMap = new HashMap<>();
+
+            for (UsageStats stats : usageStatsList) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(stats.getLastTimeUsed());
+                String date = dateFormat.format(calendar.getTime());
+                int hour = calendar.get(Calendar.HOUR_OF_DAY); // 타임슬롯 계산
+
+                String key = date + "_" + hour + "_" + stats.getPackageName();
+                long totalTimeForeground = stats.getTotalTimeInForeground() / 1000; // 초 단위로 변환
+
+                // 데이터 누적
+                appUsageMap.merge(key, totalTimeForeground, Long::sum);
+            }
+
+            // Map을 순회하며 JSON 객체 생성
+            appUsageMap.forEach((key, value) -> {
+                try {
+                    String[] parts = key.split("_");
+                    String date = parts[0];
+                    int timeSlot = Integer.parseInt(parts[1]);
+                    String appPackage = parts[2];
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("UserName", userName);
+                    jsonObject.put("Date", date);
+                    jsonObject.put("TimeSlot", timeSlot);
+                    jsonObject.put("AppPackage", appPackage);
+                    jsonObject.put("UsageTime", value);
+                    jsonObject.put("Frame", 1);
+                    jsonObject.put("Period", "intervention");
+                    jsonObject.put("Updated", updatedFormat.format(Calendar.getInstance().getTime()));
+
+                    jsonArray.put(jsonObject);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            return jsonArray;
+        }
+    }
+
+    public void updateInitialUsageStats(JSONArray usageStatsJsonArray, String serverURL, Context context) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, serverURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // 요청 성공 시 처리할 작업
+                        Log.d("Success", "Response from server: " + response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // 요청 실패 시 처리할 작업
+                Log.e("Error", "Error during request: " + error.toString());
+            }
+        }) {
+            @Override
+            public byte[] getBody() {
+                return usageStatsJsonArray.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+
+        // 요청을 RequestQueue에 추가
+        queue.add(stringRequest);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    public void updateInitialUsageStatsToServer(Context context, String serverURL) {
+//        String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(context, "userName");
+//        // Step 1: 데이터 수집
+//        List<UsageStats> usageStatsList = collectInitialUsageStats(context);
+//
+//        // Step 2: JSON 배열로 변환
+//        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
+//        JSONArray usageStatsJsonArray = converter.convertToJSONArray(usageStatsList, userName);
+//
+//        // Step 3: 서버에 데이터 업로드
+//        updateInitialUsageStats(usageStatsJsonArray, serverURL, context);
+//    }
+    public void updateInitialUsageStatsToServer(Context context, String serverURL) {
+
+        String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(context, "userName");
+        List<UsageStats> usageStatsList = collectInitialUsageStats(context);
+
+        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
+        JSONArray usageStatsJsonArray = converter.convertToJSONArray(usageStatsList, userName);
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        // 분할 크기 설정 (예: 50개 객체 당 요청)
+        int batchSize = 50;
+        for (int start = 0; start < usageStatsJsonArray.length(); start += batchSize) {
+            int end = Math.min(start + batchSize, usageStatsJsonArray.length());
+            JSONArray batchJsonArray = new JSONArray();
+            for (int i = start; i < end; i++) {
+                try {
+                    batchJsonArray.put(usageStatsJsonArray.get(i));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // 분할된 JSON 배열을 서버에 전송
+            sendBatchToServer(batchJsonArray, serverURL, queue);
+        }
+    }
+
+    private void sendBatchToServer(JSONArray batchJsonArray, String serverURL, RequestQueue queue) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, serverURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Success", "Response from server: " + response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", "Error during request: " + error.toString());
+            }
+        }) {
+            @Override
+            public byte[] getBody() {
+                return batchJsonArray.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+
+        queue.add(stringRequest);
+    }
 
     /** UsageStats RawData 업데이트하는 함수 **/
     private void updateUsageStatsRawData(String sendObjStr, String serverURL) {
