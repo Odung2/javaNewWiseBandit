@@ -301,109 +301,75 @@ public class RemoteDBUpdateService extends Service {
         return usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, currentTime);
     }
 
-    public class InitialUsageStatsToJsonArray {
-        public JSONArray convertToJSONArray(List<UsageStats> usageStatsList, String userName) {
-            JSONArray jsonArray = new JSONArray();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            SimpleDateFormat updatedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
 
-            // 예를 들어, 하루를 24시간 타임슬롯으로 나눈 맵을 생성
-            Map<String, Long> appUsageMap = new HashMap<>();
+    /** 초기 UsageStats RawData를 날짜와 타임슬롯별로 가장 많이 사용한 앱으로 변환 **/
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public JSONArray convertToJSONArray(List<UsageStats> usageStatsList, String userName) {
+        JSONArray jsonArray = new JSONArray();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat updatedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
 
-            for (UsageStats stats : usageStatsList) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(stats.getLastTimeUsed());
-                String date = dateFormat.format(calendar.getTime());
-                int hour = calendar.get(Calendar.HOUR_OF_DAY); // 타임슬롯 계산
+        // 하루를 24시간 타임슬롯으로 나눈 맵을 생성 (날짜_타임슬롯 -> 앱 사용 정보 맵)
+        Map<String, Map<String, Long>> dailyAppUsageMap = new HashMap<>();
 
-                String key = date + "_" + hour + "_" + stats.getPackageName();
-                long totalTimeForeground = stats.getTotalTimeInForeground() / 1000; // 초 단위로 변환
+        for (UsageStats stats : usageStatsList) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(stats.getLastTimeUsed());
+            String date = dateFormat.format(calendar.getTime());
+            int hour = calendar.get(Calendar.HOUR_OF_DAY); // 타임슬롯 계산
+            String key = date + "_" + hour;
 
-                // 데이터 누적
-                appUsageMap.merge(key, totalTimeForeground, Long::sum);
-            }
+            dailyAppUsageMap.putIfAbsent(key, new HashMap<>());
+            Map<String, Long> appUsageMap = dailyAppUsageMap.get(key);
+            appUsageMap.merge(stats.getPackageName(), stats.getTotalTimeInForeground(), Long::sum);
+        }
 
-            // Map을 순회하며 JSON 객체 생성
-            appUsageMap.forEach((key, value) -> {
-                try {
-                    String[] parts = key.split("_");
-                    String date = parts[0];
-                    int timeSlot = Integer.parseInt(parts[1]);
-                    String appPackage = parts[2];
+        // 각 날짜_타임슬롯별로 가장 많이 사용한 앱과 시간 계산
+        dailyAppUsageMap.forEach((key, appUsage) -> {
+            try {
+                String[] parts = key.split("_");
+                String date = parts[0];
+                int timeSlot = Integer.parseInt(parts[1]);
 
+                String mostUsedApp = null;
+                long maxUsageTime = 0;
+
+                for (Map.Entry<String, Long> entry : appUsage.entrySet()) {
+                    if (entry.getValue() > maxUsageTime) {
+                        mostUsedApp = entry.getKey();
+                        maxUsageTime = entry.getValue();
+                    }
+                }
+
+                if (mostUsedApp != null) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("UserName", userName);
                     jsonObject.put("Date", date);
                     jsonObject.put("TimeSlot", timeSlot);
-                    jsonObject.put("AppPackage", appPackage);
-                    jsonObject.put("UsageTime", value);
+                    jsonObject.put("AppPackage", mostUsedApp);
+                    jsonObject.put("UsageTime", maxUsageTime / 1000); // 밀리초를 초 단위로 변환
+                    jsonObject.put("Updated", updatedFormat.format(Calendar.getInstance().getTime()));
                     jsonObject.put("Frame", 1);
                     jsonObject.put("Period", "intervention");
-                    jsonObject.put("Updated", updatedFormat.format(Calendar.getInstance().getTime()));
-
                     jsonArray.put(jsonObject);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
-            return jsonArray;
-        }
+        return jsonArray;
     }
 
-    public void updateInitialUsageStats(JSONArray usageStatsJsonArray, String serverURL, Context context) {
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, serverURL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // 요청 성공 시 처리할 작업
-                        Log.d("Success", "Response from server: " + response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // 요청 실패 시 처리할 작업
-                Log.e("Error", "Error during request: " + error.toString());
-            }
-        }) {
-            @Override
-            public byte[] getBody() {
-                return usageStatsJsonArray.toString().getBytes(StandardCharsets.UTF_8);
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-        };
-
-        // 요청을 RequestQueue에 추가
-        queue.add(stringRequest);
-    }
-
+    /** 2주 치 데이터는 한꺼번에 보내기에는 부담이 있기에 50개의 데이터**/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//    public void updateInitialUsageStatsToServer(Context context, String serverURL) {
-//        String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(context, "userName");
-//        // Step 1: 데이터 수집
-//        List<UsageStats> usageStatsList = collectInitialUsageStats(context);
-//
-//        // Step 2: JSON 배열로 변환
-//        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
-//        JSONArray usageStatsJsonArray = converter.convertToJSONArray(usageStatsList, userName);
-//
-//        // Step 3: 서버에 데이터 업로드
-//        updateInitialUsageStats(usageStatsJsonArray, serverURL, context);
-//    }
     public void updateInitialUsageStatsToServer(Context context, String serverURL) {
 
         String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(context, "userName");
         List<UsageStats> usageStatsList = collectInitialUsageStats(context);
-
-        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
-        JSONArray usageStatsJsonArray = converter.convertToJSONArray(usageStatsList, userName);
+//
+//        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
+        JSONArray usageStatsJsonArray = convertToJSONArray(usageStatsList, userName);
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // 분할 크기 설정 (예: 50개 객체 당 요청)
