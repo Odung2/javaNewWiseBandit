@@ -311,7 +311,7 @@ public class RemoteDBUpdateService extends Service {
 
         // 하루를 24시간 타임슬롯으로 나눈 맵을 생성 (날짜_타임슬롯 -> 앱 사용 정보 맵)
         Map<String, Map<String, Long>> dailyAppUsageMap = new HashMap<>();
-
+f
         for (UsageStats stats : usageStatsList) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(stats.getLastTimeUsed());
@@ -868,7 +868,7 @@ public class RemoteDBUpdateService extends Service {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // 최대 재시도 횟수
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-            requestQueue.add(request);
+//            requestQueue.add(request); 서버에 중복 저장되는 문제로 삭제함 2024-02-27
         } catch(Exception e){
             e.printStackTrace();
 //            FirebaseCrashlytics.getInstance().recordException(e);
