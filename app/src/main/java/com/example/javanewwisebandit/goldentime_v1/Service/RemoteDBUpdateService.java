@@ -41,9 +41,11 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class RemoteDBUpdateService extends Service {
     public static final String ACTION_INITIAL_DATA_UPDATE = "ACTION_INITIAL_DATA_UPDATE_SERVICE";
@@ -311,7 +313,7 @@ public class RemoteDBUpdateService extends Service {
 
         // 하루를 24시간 타임슬롯으로 나눈 맵을 생성 (날짜_타임슬롯 -> 앱 사용 정보 맵)
         Map<String, Map<String, Long>> dailyAppUsageMap = new HashMap<>();
-f
+
         for (UsageStats stats : usageStatsList) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(stats.getLastTimeUsed());
@@ -361,18 +363,35 @@ f
         return jsonArray;
     }
 
+    public static class RequestStateManager {
+        private static final Set<String> ongoingRequests = new HashSet<>();
+
+        // 요청 시작 시 호출
+        public static synchronized boolean startRequest(String requestId) {
+            if (ongoingRequests.contains(requestId)) {
+                // 요청이 이미 진행 중인 경우
+                return false;
+            } else {
+                // 요청 시작
+                ongoingRequests.add(requestId);
+                return true;
+            }
+        }
+
+        // 요청 완료 시 호출 (성공/실패 모두)
+        public static synchronized void finishRequest(String requestId) {
+            ongoingRequests.remove(requestId);
+        }
+    }
+
     /** 2주 치 데이터는 한꺼번에 보내기에는 부담이 있기에 50개의 데이터**/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void updateInitialUsageStatsToServer(Context context, String serverURL) {
-
         String userName = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(context, "userName");
         List<UsageStats> usageStatsList = collectInitialUsageStats(context);
-//
-//        InitialUsageStatsToJsonArray converter = new InitialUsageStatsToJsonArray();
         JSONArray usageStatsJsonArray = convertToJSONArray(usageStatsList, userName);
         RequestQueue queue = Volley.newRequestQueue(context);
 
-        // 분할 크기 설정 (예: 50개 객체 당 요청)
         int batchSize = 50;
         for (int start = 0; start < usageStatsJsonArray.length(); start += batchSize) {
             int end = Math.min(start + batchSize, usageStatsJsonArray.length());
@@ -385,24 +404,26 @@ f
                 }
             }
 
-            // 분할된 JSON 배열을 서버에 전송
-            sendBatchToServer(batchJsonArray, serverURL, queue);
+            // 요청 ID 생성 (예: 현재 시간을 사용)
+            String requestId = String.valueOf(System.currentTimeMillis());
+
+            // 요청 상태 확인 및 요청 시작
+            if (RequestStateManager.startRequest(requestId)) {
+                sendBatchToServer(batchJsonArray, serverURL, queue, requestId);
+            }
         }
     }
 
-    private void sendBatchToServer(JSONArray batchJsonArray, String serverURL, RequestQueue queue) {
+    private void sendBatchToServer(JSONArray batchJsonArray, String serverURL, RequestQueue queue, String requestId) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, serverURL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Success", "Response from server: " + response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Error", "Error during request: " + error.toString());
-            }
-        }) {
+                response -> {
+                    Log.d("Success", "Response from server: " + response);
+                    RequestStateManager.finishRequest(requestId); // 요청 완료
+                },
+                error -> {
+                    Log.e("Error", "Error during request: " + error.toString());
+                    RequestStateManager.finishRequest(requestId); // 요청 완료 (실패)
+                }) {
             @Override
             public byte[] getBody() {
                 return batchJsonArray.toString().getBytes(StandardCharsets.UTF_8);
@@ -416,6 +437,7 @@ f
 
         queue.add(stringRequest);
     }
+
 
     /** UsageStats RawData 업데이트하는 함수 **/
     private void updateUsageStatsRawData(String sendObjStr, String serverURL) {
