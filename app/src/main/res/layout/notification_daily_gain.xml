@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="25dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/notiIcon"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            app:tint="#AE905E"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <TextView
+            android:id="@+id/notiName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="-0.5dp"
+            android:textColor="#AE905E"
+            android:textSize="11dp"
+            android:text="GoldenTime"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/firstLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dailynotiTotalStatisticsText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="어제까지 총 "/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalGainGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gainColor"
+            android:textSize="13dp"
+            android:text="00,000골드를 획득"/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalStatisticsText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="하였습니다."/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/dailynotiYesterdayStatisticsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="어제 획득: "/>
+
+        <TextView
+            android:id="@+id/dailynotiYesterdayGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gainColor"
+            android:textSize="13dp"
+            android:text="+ 0,000골드,"/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalGoldStatisticsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="13dp"
+            android:text="총 보유 골드:  "/>
+
+        <TextView
+            android:id="@+id/dailynotiTotalGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AE905E"
+            android:textSize="13dp"
+            android:text="000,000골드"/>
+
+    </LinearLayout>
+
+</LinearLayout>

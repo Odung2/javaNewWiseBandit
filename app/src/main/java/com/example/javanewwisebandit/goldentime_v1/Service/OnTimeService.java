@@ -72,6 +72,8 @@ public class OnTimeService extends Service {
     public boolean isAppChanged;
     public boolean isUpdateAfterAppChange;
 
+    public boolean isInterventionDone;
+
     public OnTimeService() { }
     @Nullable
     @Override
@@ -114,9 +116,10 @@ public class OnTimeService extends Service {
         isUpdateAfterAppChange = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isUpdateAfterAppChange");
         isAppChanged = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isAppChange");
         currentTimeSlot = UtilitiesDateTimeProcess.getCurrentTimeHour(); //타임슬롯 설정
+        isInterventionDone = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(), "isInterventionDone");
         int lastTimeSlot = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "lastTimeSlot");
 
-        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9) {
+        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9 && !isInterventionDone) {
             Log.d("AA", "showDailyNotification() 시작");
             showDailyNotification();
         }else{
@@ -288,6 +291,7 @@ public class OnTimeService extends Service {
         isUpdateAfterAppChange = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isUpdateAfterAppChange");
         isAppChanged = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isAppChange");
         currentTimeSlot = UtilitiesDateTimeProcess.getCurrentTimeHour(); //타임슬롯 설정
+        isInterventionDone = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(), "isInterventionDone");
         int lastTimeSlot = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "lastTimeSlot");
 
         /* 정시 알림이 좀 일찍 도착한 경우: 정시보다 이전 도착 */
@@ -295,7 +299,7 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(), "lastTimeSlot", currentTimeSlot);
 
         /* 중재앱 기간 중에 현재 타임슬롯이 9시이면: 일일 알림 노티 제공 */
-        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9) {
+        if(isAppChanged && isUpdateAfterAppChange && currentTimeSlot==9 && !isInterventionDone) {
             Log.d("AA", "showDailyNotification() 시작");
             showDailyNotification();
         }else{

@@ -49,6 +49,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     boolean isAppChanged;
     boolean isUpdateAfterAppChange;
+    /*intervention -> baseline으로 전환 시 flag 변경*/
+    boolean isInterventionDone;
+
     ImageView rightArrow;
     ImageView leftArrow;
 
@@ -60,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         isUpdateAfterAppChange = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isUpdateAfterAppChange");
         isAppChanged = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isAppChange");
+        isInterventionDone = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(), "isInterventionDone");
 
-        if(isAppChanged && isUpdateAfterAppChange) {
+        if(isAppChanged && isUpdateAfterAppChange && !isInterventionDone) { // intervention이 아닐 때 view보여주기
             setContentView(R.layout.activity_intervention_main);
         }
         else    setContentView(R.layout.activity_baseline_main);
@@ -74,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         isAppChanged = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(),"isAppChange");
         isUpdateAfterAppChange = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(), "isUpdateAfterAppChange");
+        isInterventionDone = UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getApplicationContext(), "isInterventionDone"); // 기본은 false
 
-        if(isAppChanged && isUpdateAfterAppChange) {
+        if( !isInterventionDone && isAppChanged && isUpdateAfterAppChange) {
             /* 중재기간에 보여줄 중재모드 화면 구성해주는 함수 호출 */
             Log.d("AA", "Setup Intervention UI in Main Activity");
             ViewPager2 viewPager2 = findViewById(R.id.viewPager2);
@@ -105,14 +110,17 @@ public class MainActivity extends AppCompatActivity {
             boolean isGetUsageStatsPermission = checkUsageStatsPermission();
             boolean isNotificationPermission = checkNotificationPermission();
 
+
+
+
             /* 이메일 등록했는 지, 설정해줘야할 기본 퍼미션들 잘 설정했는 지 확인하는 로직*/
             if(isEmailRegistered && isGetUsageStatsPermission && isBatteryOptimizationPermission & isNotificationPermission) {
                 /* 모든 퍼미션 설정 및 이메일 등록을 정상적으로 완료한 경우 */
-
-                UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(getApplicationContext(),"isAppChange",true);
-                UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(getApplicationContext(),"isUpdateAfterAppChange",true);
+                if(!isInterventionDone){
+                    UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(getApplicationContext(),"isAppChange",true);
+                    UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(getApplicationContext(),"isUpdateAfterAppChange",true);
+                }
                 UtilitiesSharedPrefDataProcess.setStringDataToSharedPref(getApplicationContext(),"firstDate", UtilitiesDateTimeProcess.getTodayDateByDateFormat());
-
                 /*첫 메인화면 들어갔을 때만 처리하고 싶은 로직들이 있어서 이렇게 구현*/
                 if(isFirstMainPage) {
                     UtilitiesSharedPrefDataProcess.changeFirstMainPageFlagVal(getApplicationContext());
@@ -121,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "GoldenTime 서비스를 실행합니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-
-
             }
             /* 이메일 등록 또는 퍼미션 설정 등 하나라도 안 한 경우 */
             else {

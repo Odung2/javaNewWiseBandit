@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.javanewwisebandit.goldentime_v1.Service.OnTimeService;
 import com.example.javanewwisebandit.goldentime_v1.Service.RemoteDBUpdateService;
+import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesLocalDBProcess;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesSharedPrefDataProcess;
 
 //import kr.ac.kaist.jypark.goldentime_v1.Service.OnTimeService;
@@ -24,7 +25,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             context.startForegroundService(serviceIntent2);
         }
         if (intent.getAction().equals("ALARM_APPCHANGE")) {
-            UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(context, "isAppChange", true);
+//            UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(context, "isAppChange", true);
+            /**baseline->intervention 이 아니라  intervention->baseline으로**/
+            UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(context, "isAppChange", false);
+            UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(context,"isUpdateAfterAppChange",false);
+            UtilitiesSharedPrefDataProcess.setBooleanDataToSharedPref(context, "isInterventionDone", true);
             /** 중재 앱에서 사용하는 변수 초기화 **/
             /*UtilitiesSharedPrefDataProcess.setStringDataToSharedPref(context,"firstDate", UtilitiesDateTimeProcess.getTodayDateByDateFormat());
             UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(context, "totalSuccess", 0);

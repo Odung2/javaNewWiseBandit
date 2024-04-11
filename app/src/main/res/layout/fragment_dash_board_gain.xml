@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/dateLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dayStatisticsTextLayout"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/leftArrowId"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            app:tint="#505050"
+            android:src="@drawable/ic_arrow_left_24px"
+            android:contentDescription="@string/leftarrow_description" />
+
+        <TextView
+            android:id="@+id/currentDateTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/textDefaultColor"
+            android:text="@string/currentDateTextStr"/>
+
+        <ImageView
+            android:id="@+id/rightArrowId"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            app:tint="#b4b4b4"
+            android:src="@drawable/ic_arrow_right_24px"
+            android:contentDescription="@string/rightarrow_description" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dayStatisticsTextLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/dateLayout"
+        app:layout_constraintBottom_toTopOf="@+id/dayUsageTimeLayout"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dayStatisticsTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:textColor="@color/textDefaultColor"
+            android:text="@string/dayStatisticsTextStr"/>
+
+        <ImageView
+            android:id="@+id/calendarIconId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:scaleType="fitCenter"
+            app:tint="#8c8c8c"
+            android:src="@drawable/ic_event_note_24px"
+            android:contentDescription="@string/calendarImageDescription" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/dayUsageTimeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayStatisticsTextLayout"
+        app:layout_constraintBottom_toTopOf="@+id/daySuccessFailLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/dashboard_rounded"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dayUsageTimeTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/textDefaultColor"
+            android:text="@string/dayUsageTimeTextStr" />
+
+        <TextView
+            android:id="@+id/dayUsageTimeValId"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="10dp"
+            android:gravity="center_vertical"
+            android:textSize="25sp"
+            android:textColor="@color/textValColor"
+            android:text="@string/dayUsageTimeTextVal" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/daySuccessFailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayUsageTimeLayout"
+        app:layout_constraintBottom_toTopOf="@+id/dayGoldLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:id="@+id/daySuccessLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/dashboard_rounded"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/daySuccessTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/daySuccessTextStr" />
+
+            <TextView
+                android:id="@+id/daySuccessValId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:paddingEnd="15dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/textValColor"
+                android:text="@string/daySuccessTextVal" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dayFailLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/dashboard_rounded"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dayFailTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/dayFailTextStr" />
+
+            <TextView
+                android:id="@+id/dayFailValId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingEnd="15dp"
+                android:text="@string/dayFailTextVal"
+                android:textColor="@color/textValColor"
+                android:textSize="25sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/dayGoldLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daySuccessFailLayout"
+        app:layout_constraintBottom_toTopOf="@+id/totalStatisticsTextLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/lossLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/dashboard_rounded">
+
+            <TextView
+                android:id="@+id/dayLossGoldTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingTop="7dp"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/dayLossGoldTextStr" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <LinearLayout
+                android:id="@+id/dayLossGoldValLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dayLossGoldValId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/dayLossGoldVal" />
+
+                <TextView
+                    android:id="@+id/dayLossMoneyValId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:paddingRight="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/dayLossMoneyVal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/totalStatisticsTextLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/dayGoldLayout"
+        app:layout_constraintBottom_toTopOf="@+id/totalSuccessFailLayout"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/totalStatisticsTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:textSize="12sp"
+            android:textColor="@color/textDefaultColor"
+            android:text="@string/totalStatisticsTextStr"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/totalSuccessFailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalStatisticsTextLayout"
+        app:layout_constraintBottom_toTopOf="@+id/totalGoldLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:id="@+id/totalSuccessLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/dashboard_rounded"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/totalSuccessTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/totalSuccessTextStr" />
+
+            <TextView
+                android:id="@+id/totalSuccessValId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:paddingEnd="15dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/textValColor"
+                android:text="@string/totalSuccessVal" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/totalFailLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/dashboard_rounded"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/totalFailTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/totalFailTextStr" />
+
+            <TextView
+                android:id="@+id/totalFailValId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:paddingEnd="15sp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/textValColor"
+                android:text="@string/totalFailVal" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/totalGoldLayout"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalSuccessFailLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/dashboard_rounded"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/totalLossLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/dashboard_rounded">
+
+            <TextView
+                android:id="@+id/totalLossGoldTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingTop="7dp"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/textDefaultColor"
+                android:text="@string/totalLossGoldTextStr" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <LinearLayout
+                android:id="@+id/totalLossGoldValLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/totalLossGoldValId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/totalLossGoldVal" />
+
+                <TextView
+                    android:id="@+id/totalLossMoneyValId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:paddingRight="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/totalLossMoneyVal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--
+    <LinearLayout
+        android:id="@+id/totalGoldLayout"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalSuccessFailLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/dashboard_rounded"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/totalTextFormId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingTop="7dp"
+            android:textSize="12sp"
+            android:layout_gravity="left"
+            android:textColor="@color/textDefaultColor"
+            android:text="@string/totalTextFormStr" />
+
+
+        <LinearLayout
+            android:id="@+id/totalGoldCalculationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/totalGoldValLayout"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalGoldValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:layout_marginTop="5dp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/textDefaultColor"
+                    android:text="@string/totalGoldVal"/>
+
+                <TextView
+                    android:id="@+id/totalMoneyValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:paddingEnd="3dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textDefaultColor"
+                    android:text="@string/totalMoneyVal" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/minusId"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="8dp"
+                android:scaleType="fitXY"
+                android:tint="#444444"
+                android:src="@drawable/ic_remove_24px"
+                android:contentDescription="@string/minusImgDescription" />
+
+            <LinearLayout
+                android:id="@+id/totalLossValLayout"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalLossGoldValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:layout_marginTop="5dp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/totalLossGoldVal"/>
+
+                <TextView
+                    android:id="@+id/totalLossMoneyValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:paddingEnd="3dp"
+                    android:textColor="@color/lossColor"
+                    android:text="@string/totalLossMoneyVal" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/equalId"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="8dp"
+                android:scaleType="fitXY"
+                android:tint="#444444"
+                android:src="@drawable/ic_drag_handle_24px"
+                android:contentDescription="@string/equalImgDescription" />
+
+            <LinearLayout
+                android:id="@+id/totalGainValLayout"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalGainGoldValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:layout_marginTop="5dp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#AE905E"
+                    android:text="@string/totalGainGoldVal"/>
+
+                <TextView
+                    android:id="@+id/totalGainMoneyValId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:paddingEnd="3dp"
+                    android:textStyle="bold"
+                    android:textColor="#AE905E"
+                    android:text="@string/totalGainMoneyVal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    -->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

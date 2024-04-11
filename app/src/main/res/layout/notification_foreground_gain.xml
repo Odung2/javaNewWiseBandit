@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="17dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/notiIcon"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            app:tint="#AE905E"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <TextView
+            android:id="@+id/notiName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="-0.5dp"
+            android:textColor="#AE905E"
+            android:textSize="11dp"
+            android:text="GoldenTime"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/firstLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notiUsageTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="00-00시 사용시간: "/>
+
+        <TextView
+            android:id="@+id/notiUsageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="00:00"/>
+
+        <TextView
+            android:id="@+id/notiBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="  ||  "/>
+
+        <TextView
+            android:id="@+id/notiTotalStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="누적획득:  "/>
+
+        <TextView
+            android:id="@+id/notiTotalGainGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gainColor"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:text="+ 000,000골드"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notiTodayStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="오늘 획득: "/>
+
+
+        <TextView
+            android:id="@+id/notiTodayGainGoldStatisticsVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gainColor"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:text="+ 0,000골드,"/>
+
+
+        <TextView
+            android:id="@+id/notiTodaySaveGoldText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:layout_marginLeft="5dp"
+            android:textSize="12dp"
+            android:text="적립 골드: ["/>
+
+        <ImageView
+            android:id="@+id/gold1"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold2"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold3"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold4"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold5"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+
+        <ImageView
+            android:id="@+id/gold6"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold7"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold8"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold9"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold10"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold11"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold12"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold13"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold14"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold15"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold16"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+        <ImageView
+            android:id="@+id/gold17"
+            android:layout_width="8.5dp"
+            android:layout_height="8.5dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            app:tint="#bebebe"
+            android:src="@drawable/ic_monetization_on_24px" />
+
+
+        <TextView
+            android:id="@+id/notiTodaySaveGoldText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDefaultColor"
+            android:textSize="12dp"
+            android:text="]"/>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

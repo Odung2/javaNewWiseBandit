@@ -54,5 +54,32 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Gain Frame -->
+    <string name="dayGainGoldTextStr">오늘 획득 골드</string>
+    <string name="dayGainGoldVal">0골드</string>
+    <string name="dayGainMoneyVal">(0원)</string>
+    <string name="totalGainGoldTextStr">총 획득 골드</string>
+<!--    <string name="totalTextFormStr">전체 지급받은 골드 - 차감 골드 = 남은 골드</string>-->
+<!--    <string name="totalGoldVal">178,500골드</string>-->
+<!--    <string name="totalMoneyVal">17,850원</string>-->
+<!--    <string name="totalGainGoldVal">0골드</string>-->
+<!--    <string name="totalGainMoneyVal">(0원)</string>-->
+<!--    <string name="totalGainGoldVal">0골드</string>-->
+<!--    <string name="totalGainMoneyVal">0원</string>-->
+    <!-- TODO: Remove or change this placeholder text -->
+<!--    <string name="cardTitleText">%1$s (%2$s - %3$s)</string>-->
+<!--    <string name="cardDescriptionText">Q. 얼마를 차감한다고 경고했을 때 절제를 잘했을까요?</string>-->
+<!--    &lt;!&ndash;<string name="likelihoodVal">%1$d%%</string>-->
+<!--    <string name="optimalIncentiveVal">%1$d 골드</string>-->
+<!--    <string name="timeSlotVal">%1$d 개</string>-->
+<!--    <string name="summaryTextVal">%1$d 번 추적한 결과, 차감 골드가 %2$d 골드일 때 핸드폰 사용을 절제할 가능성이 %3$d%%로 가장 높습니다.</string>&ndash;&gt;-->
+<!--    <string name="graphName">차감 금액별 절제 성공률</string>-->
+<!--    <string name="todayLossTotalLoss">-%1$d골드(-%2$d골드)</string>-->
+<!--    <string name="ifMissionFailed">%1$d-%2$d시 미션 실패 시: </string>-->
+<!--    <string name="notiThisIncentiveString">%1$d골드 차감</string>-->
+<!--    <string name="notiThisSuccessRateString">(미션 성공률: %1$d%%)</string>-->
+<!--    &lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;-->
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+
 
 </resources>
