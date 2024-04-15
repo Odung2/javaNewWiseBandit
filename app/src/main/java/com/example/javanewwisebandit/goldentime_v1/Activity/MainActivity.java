@@ -39,13 +39,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-//import kr.ac.kaist.jypark.goldentime_v1.Adapter.ViewPagerAdapter;
-//import kr.ac.kaist.jypark.goldentime_v1.R;
-//import kr.ac.kaist.jypark.goldentime_v1.Service.RegisterDailyJobScheduleService;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesDateTimeProcess;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesLocalDBProcess;
-//import kr.ac.kaist.jypark.goldentime_v1.Utils.UtilitiesSharedPrefDataProcess;
-
 public class MainActivity extends AppCompatActivity {
     boolean isAppChanged;
     boolean isUpdateAfterAppChange;
@@ -100,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).attach();
 
-//            Toast.makeText(getApplicationContext(), "GoldenTime 메인화면입니다.", Toast.LENGTH_SHORT).show();
         }
         else {
             /* 체크할 flag들 전부 가져옴 */
@@ -109,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
             boolean isBatteryOptimizationPermission = checkBatteryOptimizationPermission();
             boolean isGetUsageStatsPermission = checkUsageStatsPermission();
             boolean isNotificationPermission = checkNotificationPermission();
-
-
-
 
             /* 이메일 등록했는 지, 설정해줘야할 기본 퍼미션들 잘 설정했는 지 확인하는 로직*/
             if(isEmailRegistered && isGetUsageStatsPermission && isBatteryOptimizationPermission & isNotificationPermission) {
@@ -147,131 +136,131 @@ public class MainActivity extends AppCompatActivity {
 
     /****************************** Dashboard 조작 함수 ******************************/
     /** 날짜 왼쪽 화살표 클릭 **/
-    private void clickLeftArrow() {
-        String currentDateUIFormattedStr = ((TextView) findViewById(R.id.currentDateTextId)).getText().toString();
-        String previousDateStr = UtilitiesDateTimeProcess.getPreviousDateByUIComponentDateFormat(currentDateUIFormattedStr);
-        int compareResultCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithFirstDate(getApplicationContext(), previousDateStr);
-
-        if(compareResultCode > 0) {
-            /*첫째날보다 이후 날짜 -> 히스토리 데이터 가져오기*/
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            /** 해당 날짜 데이터 가져오기 **/
-            setupDateDashboardUI(previousDateStr);
-        }
-        else if(compareResultCode == 0) {
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            /** 해당 날짜(첫째날) 데이터 가져오기 **/
-            setupDateDashboardUI(previousDateStr);
-        }
-        else {
-            /*첫째날 이전 날짜 -> 예외처리*/
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            Toast.makeText(getApplicationContext(), "이전 날짜 데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
-        }
-    }
-    /** 날짜 오른쪽 화살표 클릭 **/
-    private void clickRightArrow() {
-        String currentDateUIFormattedStr = ((TextView) findViewById(R.id.currentDateTextId)).getText().toString();
-        String nextDateStr = UtilitiesDateTimeProcess.getNextDateByDateFormat(currentDateUIFormattedStr);
-        int compareResultCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithTodayDate(nextDateStr);
-
-        if(compareResultCode < 0) {
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            /** 해당 날짜 데이터 가져오기 **/
-            setupDateDashboardUI(nextDateStr);
-        }
-        else if(compareResultCode == 0) {
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
-            /** 오늘날짜 데이터 가져오기 **/
-            setupDateDashboardUI(nextDateStr);
-        }
-        else {
-            /*오늘날짜보다 이후 날짜 -> 예외처리*/
-            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
-            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
-            Toast.makeText(getApplicationContext(), "오늘 이후 날짜입니다.\n데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    /** Dashboard 시각화 함수**/
-    private void setupDateDashboardUI(String dateStr) {
-        /*매개변수 날짜 세팅*/
-        TextView todatDateTextView = findViewById(R.id.currentDateTextId);
-        todatDateTextView.setText(UtilitiesDateTimeProcess.getDateForUIComponent(dateStr));
-        /* 매개변수 날짜에 따른 문구/워딩 세팅 */
-        TextView dailyStatisticsWordTextView = findViewById(R.id.dayStatisticsTextId);
-        dailyStatisticsWordTextView.setText(UtilitiesDateTimeProcess.getDailyStatisticsWording(dateStr));
-
-        /**매개변수 날짜 일일 통계 데이터 로드**/
-        /*사용 시간*/
-        dateStr = UtilitiesDateTimeProcess.convertedDateStr(dateStr);
-        String[] dashboardDataArry = UtilitiesSharedPrefDataProcess.getDataDashboardUI(getApplicationContext(), dateStr);
-        TextView usageTimeValTextView = findViewById(R.id.dayUsageTimeValId);
-        usageTimeValTextView.setText(UtilitiesDateTimeProcess.convertStringTimeToUIComponetFormat(dashboardDataArry[0]));
-        /*성공 횟수*/
-        TextView successValTextView = findViewById(R.id.daySuccessValId);
-        successValTextView.setText(dashboardDataArry[1]);
-        /*실패 횟수*/
-        TextView failValTextView = findViewById(R.id.dayFailValId);
-        int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
-        failValTextView.setText(String.valueOf(todayFailNum));
-        /*차감 골드*/
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
-        TextView dayLossGoldTextView = findViewById(R.id.dayLossGoldValId);
-
-        String lossGold = decimalFormat.format(UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(dateStr)));
-        dayLossGoldTextView.setText("- "+lossGold+"골드");
-        /*차감 금액*/
-        TextView dayLossMoneyTextView = findViewById(R.id.dayLossMoneyValId);
-        String lossMoney = decimalFormat.format(UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive") / 10);
-        dayLossMoneyTextView.setText("- "+lossMoney+"원");
-
-        /**전체 통계 데이터 로드**/
-        /* 전체 통계 문구/워딩 세팅: 현재날짜+현재시간 */
-        TextView totalStatisticsWordTextView = findViewById(R.id.totalStatisticsTextId);
-        totalStatisticsWordTextView.setText("누적 통계("+UtilitiesDateTimeProcess.getTotalStatisticsWording()+")");
-
-        int totalSuccessNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalSuccess");
-        int totalFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalFail");
-        /*전체 성공횟수*/
-        TextView totalSuccessValTextView = findViewById(R.id.totalSuccessValId);
-        totalSuccessValTextView.setText(String.valueOf(totalSuccessNum));
-        /*전체 실패횟수*/
-        TextView totalFailValTextView = findViewById(R.id.totalFailValId);
-        totalFailValTextView.setText(String.valueOf(totalFailNum));
-
-        /*전체 차감골드*/
-        int totalLossGoldInt = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
-        TextView totalLossGoldTextView = findViewById(R.id.totalLossGoldValId);
-        String totalLossGold = decimalFormat.format(totalLossGoldInt);
-        totalLossGoldTextView.setText(totalLossGold+"골드");
-        /*전체 차감금액*/
-        TextView totalLossMoneyTextView = findViewById(R.id.totalLossMoneyValId);
-        String totalLossMoney = decimalFormat.format(totalLossGoldInt / 10);
-        totalLossMoneyTextView.setText(totalLossMoney+"원");
-    }
-
-    /** Dashboard 시각화 함수: 어제 날짜 **/
-    public void showCalendar() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                String selectedDateStr = UtilitiesDateTimeProcess.createSelectedDateForCalendar(month+1, day);
-                int dateCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithTodayDate(selectedDateStr);
-                if(dateCode > 0)    Toast.makeText(getApplicationContext(), "오늘 이후 날짜입니다.\n데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
-                else                setupDateDashboardUI(selectedDateStr);
-            }
-        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        String firstDateStr = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(getApplicationContext(), "firstDate");
-        datePickerDialog.getDatePicker().setMinDate(UtilitiesDateTimeProcess.convertFormattedDateToMills(firstDateStr));
-        datePickerDialog.show();
-    }
+//    private void clickLeftArrow() {
+//        String currentDateUIFormattedStr = ((TextView) findViewById(R.id.currentDateTextId)).getText().toString();
+//        String previousDateStr = UtilitiesDateTimeProcess.getPreviousDateByUIComponentDateFormat(currentDateUIFormattedStr);
+//        int compareResultCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithFirstDate(getApplicationContext(), previousDateStr);
+//
+//        if(compareResultCode > 0) {
+//            /*첫째날보다 이후 날짜 -> 히스토리 데이터 가져오기*/
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            /** 해당 날짜 데이터 가져오기 **/
+//            setupDateDashboardUI(previousDateStr);
+//        }
+//        else if(compareResultCode == 0) {
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            /** 해당 날짜(첫째날) 데이터 가져오기 **/
+//            setupDateDashboardUI(previousDateStr);
+//        }
+//        else {
+//            /*첫째날 이전 날짜 -> 예외처리*/
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            Toast.makeText(getApplicationContext(), "이전 날짜 데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//    /** 날짜 오른쪽 화살표 클릭 **/
+//    private void clickRightArrow() {
+//        String currentDateUIFormattedStr = ((TextView) findViewById(R.id.currentDateTextId)).getText().toString();
+//        String nextDateStr = UtilitiesDateTimeProcess.getNextDateByDateFormat(currentDateUIFormattedStr);
+//        int compareResultCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithTodayDate(nextDateStr);
+//
+//        if(compareResultCode < 0) {
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            /** 해당 날짜 데이터 가져오기 **/
+//            setupDateDashboardUI(nextDateStr);
+//        }
+//        else if(compareResultCode == 0) {
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
+//            /** 오늘날짜 데이터 가져오기 **/
+//            setupDateDashboardUI(nextDateStr);
+//        }
+//        else {
+//            /*오늘날짜보다 이후 날짜 -> 예외처리*/
+//            ImageViewCompat.setImageTintList(leftArrow, ColorStateList.valueOf(Color.parseColor("#505050")));
+//            ImageViewCompat.setImageTintList(rightArrow, ColorStateList.valueOf(Color.parseColor("#b4b4b4")));
+//            Toast.makeText(getApplicationContext(), "오늘 이후 날짜입니다.\n데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//
+//    /** Dashboard 시각화 함수**/
+//    private void setupDateDashboardUI(String dateStr) {
+//        /*매개변수 날짜 세팅*/
+//        TextView todatDateTextView = findViewById(R.id.currentDateTextId);
+//        todatDateTextView.setText(UtilitiesDateTimeProcess.getDateForUIComponent(dateStr));
+//        /* 매개변수 날짜에 따른 문구/워딩 세팅 */
+//        TextView dailyStatisticsWordTextView = findViewById(R.id.dayStatisticsTextId);
+//        dailyStatisticsWordTextView.setText(UtilitiesDateTimeProcess.getDailyStatisticsWording(dateStr));
+//
+//        /**매개변수 날짜 일일 통계 데이터 로드**/
+//        /*사용 시간*/
+//        dateStr = UtilitiesDateTimeProcess.convertedDateStr(dateStr);
+//        String[] dashboardDataArry = UtilitiesSharedPrefDataProcess.getDataDashboardUI(getApplicationContext(), dateStr);
+//        TextView usageTimeValTextView = findViewById(R.id.dayUsageTimeValId);
+//        usageTimeValTextView.setText(UtilitiesDateTimeProcess.convertStringTimeToUIComponetFormat(dashboardDataArry[0]));
+//        /*성공 횟수*/
+//        TextView successValTextView = findViewById(R.id.daySuccessValId);
+//        successValTextView.setText(dashboardDataArry[1]);
+//        /*실패 횟수*/
+//        TextView failValTextView = findViewById(R.id.dayFailValId);
+//        int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
+//        failValTextView.setText(String.valueOf(todayFailNum));
+//        /*차감 골드*/
+//        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+//        TextView dayLossGoldTextView = findViewById(R.id.dayLossGoldValId);
+//
+//        String lossGold = decimalFormat.format(UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(dateStr)));
+//        dayLossGoldTextView.setText("- "+lossGold+"골드");
+//        /*차감 금액*/
+//        TextView dayLossMoneyTextView = findViewById(R.id.dayLossMoneyValId);
+//        String lossMoney = decimalFormat.format(UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive") / 10);
+//        dayLossMoneyTextView.setText("- "+lossMoney+"원");
+//
+//        /**전체 통계 데이터 로드**/
+//        /* 전체 통계 문구/워딩 세팅: 현재날짜+현재시간 */
+//        TextView totalStatisticsWordTextView = findViewById(R.id.totalStatisticsTextId);
+//        totalStatisticsWordTextView.setText("누적 통계("+UtilitiesDateTimeProcess.getTotalStatisticsWording()+")");
+//
+//        int totalSuccessNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalSuccess");
+//        int totalFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalFail");
+//        /*전체 성공횟수*/
+//        TextView totalSuccessValTextView = findViewById(R.id.totalSuccessValId);
+//        totalSuccessValTextView.setText(String.valueOf(totalSuccessNum));
+//        /*전체 실패횟수*/
+//        TextView totalFailValTextView = findViewById(R.id.totalFailValId);
+//        totalFailValTextView.setText(String.valueOf(totalFailNum));
+//
+//        /*전체 차감골드*/
+//        int totalLossGoldInt = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
+//        TextView totalLossGoldTextView = findViewById(R.id.totalLossGoldValId);
+//        String totalLossGold = decimalFormat.format(totalLossGoldInt);
+//        totalLossGoldTextView.setText(totalLossGold+"골드");
+//        /*전체 차감금액*/
+//        TextView totalLossMoneyTextView = findViewById(R.id.totalLossMoneyValId);
+//        String totalLossMoney = decimalFormat.format(totalLossGoldInt / 10);
+//        totalLossMoneyTextView.setText(totalLossMoney+"원");
+//    }
+//
+//    /** Dashboard 시각화 함수: 어제 날짜 **/
+//    public void showCalendar() {
+//        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int day) {
+//                String selectedDateStr = UtilitiesDateTimeProcess.createSelectedDateForCalendar(month+1, day);
+//                int dateCode = UtilitiesDateTimeProcess.compareSelectedUIComponentDateWithTodayDate(selectedDateStr);
+//                if(dateCode > 0)    Toast.makeText(getApplicationContext(), "오늘 이후 날짜입니다.\n데이터 정보가 없습니다.",Toast.LENGTH_SHORT).show();
+//                else                setupDateDashboardUI(selectedDateStr);
+//            }
+//        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+//        String firstDateStr = UtilitiesSharedPrefDataProcess.getStringSharedPrefData(getApplicationContext(), "firstDate");
+//        datePickerDialog.getDatePicker().setMinDate(UtilitiesDateTimeProcess.convertFormattedDateToMills(firstDateStr));
+//        datePickerDialog.show();
+//    }
 
 
     /****************************** UsageStats 퍼미션 체크 함수 ******************************/

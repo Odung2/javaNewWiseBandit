@@ -102,7 +102,7 @@ public class ExperimentFragment extends Fragment {
             if (mSubData.size() < Incentive.getInstance().incentives.length){
                 for (double incentive : Incentive.getInstance().incentives){
                     if (mSubData.stream().allMatch(tuple -> tuple.getIncentive() != incentive))
-                    mSubData.add(new IncentiveInfoTuple(incentive, 0));
+                        mSubData.add(new IncentiveInfoTuple(incentive, 0));
                 }
             }
 

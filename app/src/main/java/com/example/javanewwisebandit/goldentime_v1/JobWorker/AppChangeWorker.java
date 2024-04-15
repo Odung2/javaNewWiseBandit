@@ -45,7 +45,7 @@ public class AppChangeWorker extends Worker {
         Calendar alarmTime = Calendar.getInstance();
         int hourOfTheDay = UtilitiesDateTimeProcess.getCurrentTimeHour()+1;
         alarmTime.set(Calendar.HOUR_OF_DAY, hourOfTheDay);
-        alarmTime.set(Calendar.MINUTE, 3);
+        alarmTime.set(Calendar.MINUTE, 360);
         alarmTime.set(Calendar.SECOND, 0);
         alarmTime.add(Calendar.DAY_OF_MONTH, 0);
         long timeInMillis = alarmTime.getTimeInMillis();

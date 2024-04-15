@@ -202,7 +202,7 @@
 
 
     <LinearLayout
-        android:id="@+id/dayGoldLayout"
+        android:id="@+id/dayGoldLayoutLossFrame"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -382,7 +382,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/totalGoldLayout"
+        android:id="@+id/totalGoldLayoutLossFrame"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         app:layout_constraintLeft_toLeftOf="parent"

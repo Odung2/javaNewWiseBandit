@@ -21,12 +21,14 @@ public class AppDatabaseIncentiveThread extends Thread{
         if(this.date.equals("")){
             this.sum = AppDatabase.getInstance(appContext)
                     .usageTimeDailyDao()
-                    .getTotalFailSumIncentive();
+//                    .getTotalFailSumIncentive(); // LossFrame
+                    .getTotalSuccessSumIncentive(); // GainFrame
         }
         else {
             this.sum = AppDatabase.getInstance(appContext)
                     .usageTimeDailyDao()
-                    .getFailSumIncentiveByDate(date);
+//                    .getFailSumIncentiveByDate(date); // LossFrame
+                    .getSuccessSumIncentiveByDate(date); // GainFrame
         }
     }
 

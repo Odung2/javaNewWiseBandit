@@ -518,7 +518,8 @@ public class OnTimeService extends Service {
                         if(screenOnTimeCount==540)  showWarningNotification();  // 9분 경고
                         if(screenOnTimeCount==600) {
                             showTimeoutNotification();  // 10분 경고
-                            saveFailDataInLocalDB();
+//                            saveFailDataInLocalDB(); // LossFrame
+                            saveSuccessDataInLocalDB(); // GainFrame
                             updateSuccessFailStatistics();
                             startTimer(screenOnTimeCount);
                         }
@@ -547,6 +548,25 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
     }
 
+    /**Gain Frame**/
+    private void saveSuccessDataInLocalDB() {
+        Log.d("AA", "Room DB debugging, failure, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive"));
+
+        String dateStr = UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()));
+        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(getApplicationContext(), currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "incentive"), true, dateStr);
+        Log.d("AA", "Insert incentive Thread state: "+thread.getState());
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: handle exception
+            return;
+        }
+
+        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref( this, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), ""));
+        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
+    }
+
 
     private void updateSuccessFailStatistics() {
         /*오늘 실패 횟수 증가 */
@@ -558,6 +578,7 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(),"totalFail",++totalFailNum);
     }
 
+    // 이게 노티바인듯
     private void startTimer(int timeCount) {
         remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간: ");
         remoteViews.setTextViewText(R.id.notiUsageTime, getNotificationTimerFormat(timeCount));

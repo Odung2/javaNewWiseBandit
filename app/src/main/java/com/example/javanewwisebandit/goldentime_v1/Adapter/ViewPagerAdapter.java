@@ -22,10 +22,14 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 1) {
-            return new ExperimentFragment();
+        switch(position){
+            case 0:
+                return new DashBoardFragment();
+            case 1:
+                return new ExperimentFragment();
+            default:
+                return null;
         }
-        return new DashBoardFragment();
     }
 
     @Override

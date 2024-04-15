@@ -202,7 +202,7 @@
 
 
     <LinearLayout
-        android:id="@+id/dayGoldLayout"
+        android:id="@+id/dayGoldLayoutGainFrame"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -216,14 +216,14 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/lossLayout"
+            android:id="@+id/gainLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@drawable/dashboard_rounded">
 
             <TextView
-                android:id="@+id/dayLossGoldTextId"
+                android:id="@+id/dayGainGoldTextId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
@@ -231,7 +231,7 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/textDefaultColor"
-                android:text="@string/dayLossGoldTextStr" />
+                android:text="@string/dayGainGoldTextStr" />
 
             <View
                 android:layout_width="0dp"
@@ -240,30 +240,30 @@
                 />
 
             <LinearLayout
-                android:id="@+id/dayLossGoldValLayout"
+                android:id="@+id/dayGainGoldValLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/dayLossGoldValId"
+                    android:id="@+id/dayGainGoldValId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/lossColor"
-                    android:text="@string/dayLossGoldVal" />
+                    android:text="@string/dayGainGoldVal" />
 
                 <TextView
-                    android:id="@+id/dayLossMoneyValId"
+                    android:id="@+id/dayGainMoneyValId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:paddingRight="15dp"
                     android:textStyle="bold"
                     android:textColor="@color/lossColor"
-                    android:text="@string/dayLossMoneyVal" />
+                    android:text="@string/dayGainMoneyVal" />
 
             </LinearLayout>
 
@@ -382,7 +382,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/totalGoldLayout"
+        android:id="@+id/totalGoldLayoutGainFrame"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -395,14 +395,14 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/totalLossLayout"
+            android:id="@+id/totalGainLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@drawable/dashboard_rounded">
 
             <TextView
-                android:id="@+id/totalLossGoldTextId"
+                android:id="@+id/totalGainGoldTextId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
@@ -410,7 +410,7 @@
                 android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/textDefaultColor"
-                android:text="@string/totalLossGoldTextStr" />
+                android:text="@string/totalGainGoldTextStr" />
 
             <View
                 android:layout_width="0dp"
@@ -419,30 +419,30 @@
                 />
 
             <LinearLayout
-                android:id="@+id/totalLossGoldValLayout"
+                android:id="@+id/totalGainGoldValLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/totalLossGoldValId"
+                    android:id="@+id/totalGainGoldValId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/lossColor"
-                    android:text="@string/totalLossGoldVal" />
+                    android:text="@string/totalGainGoldVal" />
 
                 <TextView
-                    android:id="@+id/totalLossMoneyValId"
+                    android:id="@+id/totalGainMoneyValId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:paddingRight="15dp"
                     android:textStyle="bold"
                     android:textColor="@color/lossColor"
-                    android:text="@string/totalLossMoneyVal" />
+                    android:text="@string/totalGainMoneyVal" />
 
             </LinearLayout>
 

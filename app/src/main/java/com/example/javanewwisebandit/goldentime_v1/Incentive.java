@@ -69,14 +69,19 @@ public class Incentive {
             // costArray라는 변수명도 의미있게 바꾸면 좋을 듯(예: lossArray)
             // 기존 코드: costArray[i] *= successRatioArray[i];
             // 개선 코드: costArray[i] = (1 - successRatioArray[i]) * costArray[i];
-            costArray[i] = (1 - successRatioArray[i]) * costArray[i];
+//            costArray[i] = (1 - successRatioArray[i]) * costArray[i];
+
+            // GainFrame으로 변경
+            costArray[i] *= successRatioArray[i];
         }
 
         // loss frame 상황에서는 cost 수정 필요
         // 사용자가 절제 실패 시 잃는 금액도 최대화할 필요가 있음
         // 기존 코드: int[] orders = {1, -1};
         // 개선 코드: int[] orders = {1, 1};
-        int[] orders = {1, 1};
+
+        //GainFrame으로 다시 변경
+        int[] orders = {1, -1};
         double[][] objectives = new double[arrLength][2];
         for (int j=0; j<arrLength; j++){
             objectives[j][0] = successRatioArray[j];

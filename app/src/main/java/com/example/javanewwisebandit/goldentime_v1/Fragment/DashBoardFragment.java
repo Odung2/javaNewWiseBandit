@@ -90,7 +90,7 @@ public class DashBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        dashboardView = (ViewGroup) inflater.inflate(R.layout.fragment_dash_board, container, false);
+        dashboardView = (ViewGroup) inflater.inflate(R.layout.fragment_dash_board_gain, container, false);
 
         return dashboardView;
     }
@@ -211,15 +211,27 @@ public class DashBoardFragment extends Fragment {
         //failValTextView.setText(String.valueOf(todayFailNum));
         failValTextView.setText(dashboardDataArry[2]);
         /*차감 골드*/
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
-        TextView dayLossGoldTextView = dashboardView.findViewById(R.id.dayLossGoldValId);
+//        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+//        TextView dayLossGoldTextView = dashboardView.findViewById(R.id.dayLossGoldValId);
+//
+//        String lossGold = decimalFormat.format(UtilitiesLocalDBProcess.getIncentiveSum(appContext, UtilitiesDateTimeProcess.getDateByDBDateFormat(dateStr)));
+//        dayLossGoldTextView.setText("- "+lossGold+"골드");
+//        /*차감 금액*/
+//        TextView dayLossMoneyTextView = dashboardView.findViewById(R.id.dayLossMoneyValId);
+//        String lossMoney = decimalFormat.format(UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TodayIncentive") / 10);
+//        dayLossMoneyTextView.setText("(- "+lossMoney+"원)");
 
-        String lossGold = decimalFormat.format(UtilitiesLocalDBProcess.getIncentiveSum(appContext, UtilitiesDateTimeProcess.getDateByDBDateFormat(dateStr)));
-        dayLossGoldTextView.setText("- "+lossGold+"골드");
+        /***획득 골드***/
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        TextView dayGainGoldTextView = dashboardView.findViewById(R.id.dayGainGoldValId);
+
+        String gainGold = decimalFormat.format(UtilitiesLocalDBProcess.getIncentiveSum(appContext, UtilitiesDateTimeProcess.getDateByDBDateFormat(dateStr)));
+        dayGainGoldTextView.setText("+ "+gainGold+"골드");
         /*차감 금액*/
-        TextView dayLossMoneyTextView = dashboardView.findViewById(R.id.dayLossMoneyValId);
-        String lossMoney = decimalFormat.format(UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TodayIncentive") / 10);
-        dayLossMoneyTextView.setText("(- "+lossMoney+"원)");
+        TextView dayGainMoneyTextView = dashboardView.findViewById(R.id.dayGainMoneyValId);
+        String gainMoney = decimalFormat.format(UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TodayIncentive") / 10);
+        dayGainMoneyTextView.setText("(+ "+gainMoney+"원)");
+
 
         /**전체 통계 데이터 로드**/
         /* 전체 통계 문구/워딩 세팅: 현재날짜+현재시간 */
@@ -235,19 +247,33 @@ public class DashBoardFragment extends Fragment {
         TextView totalFailValTextView = dashboardView.findViewById(R.id.totalFailValId);
         totalFailValTextView.setText(String.valueOf(totalFailNum));
 
-        /*전체 차감골드*/
-        int totalLossGoldInt = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TotalIncentive");
-        TextView totalLossGoldTextView = dashboardView.findViewById(R.id.totalLossGoldValId);
-        String totalLossGold = decimalFormat.format(totalLossGoldInt);
-        totalLossGoldTextView.setText("- "+totalLossGold+"골드");
-        /*전체 차감금액*/
-        TextView totalLossMoneyTextView = dashboardView.findViewById(R.id.totalLossMoneyValId);
-        String totalLossMoney = decimalFormat.format(totalLossGoldInt / 10);
-        totalLossMoneyTextView.setText("(- "+totalLossMoney+"원)");
+//        /*전체 차감골드*/
+//        int totalLossGoldInt = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TotalIncentive");
+//        TextView totalLossGoldTextView = dashboardView.findViewById(R.id.totalLossGoldValId);
+//        String totalLossGold = decimalFormat.format(totalLossGoldInt);
+//        totalLossGoldTextView.setText("- "+totalLossGold+"골드");
+//        /*전체 차감금액*/
+//        TextView totalLossMoneyTextView = dashboardView.findViewById(R.id.totalLossMoneyValId);
+//        String totalLossMoney = decimalFormat.format(totalLossGoldInt / 10);
+//        totalLossMoneyTextView.setText("(- "+totalLossMoney+"원)");
+//
+//        if (UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getActivity(), "isFollowup")) {
+//            dayLossMoneyTextView.setText("");
+//            totalLossMoneyTextView.setText("");
+//        }
+        /**전체 획득 골드**/
+        int totalGainGoldInt = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "TotalIncentive");
+        TextView totalGainGoldTextView = dashboardView.findViewById(R.id.totalGainGoldValId);
+        String totalGainGold = decimalFormat.format(totalGainGoldInt);
+        totalGainGoldTextView.setText("+ "+totalGainGold+"골드");
+        /**전체 획득 금액**/
+        TextView totalGainMoneyTextView = dashboardView.findViewById(R.id.totalGainMoneyValId);
+        String totalGainMoney = decimalFormat.format(totalGainGoldInt / 10);
+        totalGainMoneyTextView.setText("(+ "+totalGainMoney+"원)");
 
         if (UtilitiesSharedPrefDataProcess.getBooleanSharedPrefData(getActivity(), "isFollowup")) {
-            dayLossMoneyTextView.setText("");
-            totalLossMoneyTextView.setText("");
+            dayGainMoneyTextView.setText("");
+            totalGainMoneyTextView.setText("");
         }
     }
 
