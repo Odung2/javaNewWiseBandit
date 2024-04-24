@@ -304,7 +304,6 @@ public class OnTimeService extends Service {
             showDailyNotification();
         }else{
             Log.d("AA", "isAppChanged 또는 isUpdateAfterAppchange 또는 currentTimeSlot 오류");
-
         }
 
         /* 이전 타임슬롯 사용통계 저장 */
@@ -312,7 +311,7 @@ public class OnTimeService extends Service {
         if(noFirstTrial) {
             screenOnTimeCount = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(),"onTimeCount");
             UtilitiesSharedPrefDataProcess.updateTotalOnTimeUsageData(getApplicationContext(),currentTimeSlot,screenOnTimeCount, isAppChanged);
-            screenOnTimeCount =0;
+            screenOnTimeCount = 0;
             UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(),"onTimeCount", screenOnTimeCount);
         }
         else {
@@ -410,7 +409,7 @@ public class OnTimeService extends Service {
 
         /*커스텀 노티바 화면 만들기*/
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foregrund_loss);
-        remoteViews.setTextViewText(R.id.notiUsageTimeText, currentTimeSlot+"-"+(currentTimeSlot+1)+"시 사용시간: ");
+        remoteViews.setTextViewText(R.id.notiUsageTimeText, currentTimeSlot+"-"+(currentTimeSlot+1)+"시 사용시간?: ");
         /*남은골드 리셋*/
         goldSetup(17, "#D29953");
 
@@ -580,7 +579,7 @@ public class OnTimeService extends Service {
 
     // 이게 노티바인듯
     private void startTimer(int timeCount) {
-        remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간: ");
+        remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간!: ");
         remoteViews.setTextViewText(R.id.notiUsageTime, getNotificationTimerFormat(timeCount));
         remoteViews.setTextViewText(R.id.notiThisIncentive, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 미션 실패 시: ");
 
@@ -589,7 +588,7 @@ public class OnTimeService extends Service {
         int totalFail = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalFail");
         DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
-        /*오늘 차감/누적차감*/
+        /*오늘 차감(누적차감)*/
         int todayLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive");
         int totalLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
         remoteViews.setTextViewText(R.id.notiTotalLossGoldStatisticsVal, "-"+decimalFormat.format(todayLossGold)+"골드 (-"+decimalFormat.format(totalLossGold)+"골드)");

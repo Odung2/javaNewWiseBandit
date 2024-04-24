@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textDefaultColor"
             android:textSize="10sp"
-            android:text="00-00시 사용시간: "/>
+            android:text="00-00시 사용시간!: "/>
 
         <TextView
             android:id="@+id/notiUsageTime"
