@@ -45,9 +45,9 @@ public class AppChangeWorker extends Worker {
         Calendar alarmTime = Calendar.getInstance();
         int hourOfTheDay = UtilitiesDateTimeProcess.getCurrentTimeHour()+1;
         alarmTime.set(Calendar.HOUR_OF_DAY, hourOfTheDay);
-        alarmTime.set(Calendar.MINUTE, 360);
+        alarmTime.set(Calendar.MINUTE, 0);
         alarmTime.set(Calendar.SECOND, 0);
-        alarmTime.add(Calendar.DAY_OF_MONTH, 1);
+        alarmTime.add(Calendar.DAY_OF_MONTH, 3);
         long timeInMillis = alarmTime.getTimeInMillis();
         //timeInMillis += 0;   //1주일 후: 604800000, 1일 후: 86400000
         /**SharedPref 변수에 저장**/

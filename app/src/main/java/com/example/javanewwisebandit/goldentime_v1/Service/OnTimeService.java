@@ -517,8 +517,8 @@ public class OnTimeService extends Service {
                         if(screenOnTimeCount==540)  showWarningNotification();  // 9분 경고
                         if(screenOnTimeCount==600) {
                             showTimeoutNotification();  // 10분 경고
-//                            saveFailDataInLocalDB(); // LossFrame
-                            saveSuccessDataInLocalDB(); // GainFrame
+                            saveFailDataInLocalDB(); // LossFrame
+//                            saveSuccessDataInLocalDB(); // GainFrame
                             updateSuccessFailStatistics();
                             startTimer(screenOnTimeCount);
                         }
