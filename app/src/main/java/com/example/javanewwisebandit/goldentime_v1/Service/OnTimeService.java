@@ -408,8 +408,10 @@ public class OnTimeService extends Service {
         timerNotificationManager.createNotificationChannel(channel);
 
         /*커스텀 노티바 화면 만들기*/
-        remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foregrund_loss);
-        remoteViews.setTextViewText(R.id.notiUsageTimeText, currentTimeSlot+"-"+(currentTimeSlot+1)+"시 사용시간?: ");
+//        remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foregrund_loss);
+        remoteViews = new RemoteViews(getPackageName(), R.layout.notification_foreground_gain);
+
+        remoteViews.setTextViewText(R.id.notiUsageTimeText, currentTimeSlot+"-"+(currentTimeSlot+1)+"시 사용시간: ");
         /*남은골드 리셋*/
         goldSetup(17, "#D29953");
 
@@ -547,24 +549,24 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
     }
 
-    /**Gain Frame**/
-    private void saveSuccessDataInLocalDB() {
-        Log.d("AA", "Room DB debugging, failure, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive"));
-
-        String dateStr = UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()));
-        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(getApplicationContext(), currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "incentive"), true, dateStr);
-        Log.d("AA", "Insert incentive Thread state: "+thread.getState());
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            //TODO: handle exception
-            return;
-        }
-
-        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref( this, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), ""));
-        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
-    }
+//    /**Gain Frame**/
+//    private void saveSuccessDataInLocalDB() {
+//        Log.d("AA", "Room DB debugging, failure, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive"));
+//
+//        String dateStr = UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()));
+//        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(getApplicationContext(), currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "incentive"), true, dateStr);
+//        Log.d("AA", "Insert incentive Thread state: "+thread.getState());
+//        thread.start();
+//        try {
+//            thread.join();
+//        } catch (InterruptedException e) {
+//            //TODO: handle exception
+//            return;
+//        }
+//
+//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref( this, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), ""));
+//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
+//    }
 
 
     private void updateSuccessFailStatistics() {
@@ -579,19 +581,36 @@ public class OnTimeService extends Service {
 
     // 이게 노티바인듯
     private void startTimer(int timeCount) {
-        remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간!: ");
+        remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간: ");
         remoteViews.setTextViewText(R.id.notiUsageTime, getNotificationTimerFormat(timeCount));
-        remoteViews.setTextViewText(R.id.notiThisIncentive, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 미션 실패 시: ");
+        remoteViews.setTextViewText(R.id.notiThisIncentive, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 미션 성공 시: ");
 
         /*오늘 차감/누적 차감 데이터 로드 */
         int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
         int totalFail = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalFail");
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
+
+        /*오늘 획득/누적 획득 데이터 로드 */
+        int todaySuccessNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailySuccess");
+        int totalSuccess = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalSuccess");
+        DecimalFormat DecimalFormat = new DecimalFormat("###,###");
 
         /*오늘 차감(누적차감)*/
         int todayLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive");
         int totalLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
-        remoteViews.setTextViewText(R.id.notiTotalLossGoldStatisticsVal, "-"+decimalFormat.format(todayLossGold)+"골드 (-"+decimalFormat.format(totalLossGold)+"골드)");
+        /**
+         * test 용
+         */
+        remoteViews.setTextViewText(R.id.test1, DecimalFormat.format(todayLossGold)+"골드");
+        remoteViews.setTextViewText(R.id.test2, DecimalFormat.format(totalLossGold)+"골드");
+
+
+        /*누적획득*/
+        String totalGainGold = DecimalFormat.format(totalSuccess*500);
+        /*오늘획득*/
+        String todayGainGold = DecimalFormat.format(todaySuccessNum*500);
+        /* remoteViews 업데이트*/
+        remoteViews.setTextViewText(R.id.notiTotalGainGoldStatisticsVal, "+"+DecimalFormat.format(todayGainGold)+"골드 (+"+DecimalFormat.format(totalGainGold)+"골드)");
         //String remainTotalGold = decimalFormat.format(178500 - totalLossGold);
         //remoteViews.setTextViewText(R.id.notiTotalRemainGoldStatisticsVal, "(총 "+remainTotalGold+"골드 남음)");
 
@@ -604,7 +623,7 @@ public class OnTimeService extends Service {
 
         /*현재 시간 인센티브 가져오고 세팅*/
         int incentive = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive");
-        remoteViews.setTextViewText(R.id.notiThisIncentiveVal, this.getString(R.string.notiThisIncentiveString, incentive));
+        remoteViews.setTextViewText(R.id.notiThisIncentiveVal, this.getString(R.string.notiThisGainIncentiveString, incentive));
 
         /*성공률 계산*/
         String context = UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot);
