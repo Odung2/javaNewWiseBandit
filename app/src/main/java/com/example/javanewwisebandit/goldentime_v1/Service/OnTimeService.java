@@ -368,7 +368,8 @@ public class OnTimeService extends Service {
 
         NotificationCompat.Builder warningNotifyBuilder = new NotificationCompat.Builder(this, Config.WARNING_ALARM_CHANNEL_ID)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.golden_time))
-                .setContentTitle(Html.fromHtml("1분 후 <font color=#AE905E>" + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive") + "골드</font> 차감", Html.FROM_HTML_MODE_COMPACT))
+//                .setContentTitle(Html.fromHtml("1분 후 <font color=#AE905E>" + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive") + "골드</font> 차감", Html.FROM_HTML_MODE_COMPACT))
+                .setContentTitle(Html.fromHtml("1분 내 폰 사용 중지 시 <font color=#AE905E>" + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive") + "골드</font> 획득", Html.FROM_HTML_MODE_COMPACT))
                 .setContentText(Config.LOSS_WARNING_MSG2)
                 //.setSubText(Config.SUBTITLE_WARNING)
                 .setColor(Color.parseColor("#AE905E"))
@@ -390,7 +391,9 @@ public class OnTimeService extends Service {
 
         NotificationCompat.Builder warningNotifyBuilder = new NotificationCompat.Builder(this, Config.TIMEOUT_ALARM_CHANNEL_ID)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.golden_time))
-                .setContentTitle(Html.fromHtml("<font color=#AE905E>" + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive") + "골드</font> 차감", Html.FROM_HTML_MODE_COMPACT))
+//                .setContentTitle(Html.fromHtml("<font color=#AE905E>" + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive") + "골드</font> 차감", Html.FROM_HTML_MODE_COMPACT))
+                .setContentTitle(Html.fromHtml("<font color=#AE905E>" + "0" + "골드</font> 획득", Html.FROM_HTML_MODE_COMPACT))
+
                 .setContentText(Config.LOSS_TIMEOUT_MSG2)
                 //.setSubText(Config.SUBTITLE_TIMEOUT)
                 .setColor(Color.parseColor("#AE905E"))
