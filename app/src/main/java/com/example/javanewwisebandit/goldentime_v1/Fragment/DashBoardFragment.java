@@ -202,10 +202,10 @@ public class DashBoardFragment extends Fragment {
         String[] dashboardDataArry = UtilitiesSharedPrefDataProcess.getDataDashboardUI(appContext, dateStr);
         TextView usageTimeValTextView = dashboardView.findViewById(R.id.dayUsageTimeValId);
         usageTimeValTextView.setText(UtilitiesDateTimeProcess.convertStringTimeToUIComponetFormat(dashboardDataArry[0]));
-        /*성공 횟수*/
+        /*오늘(현재) 성공 횟수*/
         TextView successValTextView = dashboardView.findViewById(R.id.daySuccessValId);
         successValTextView.setText(dashboardDataArry[1]);
-        /*실패 횟수*/
+        /*오늘(현재)실패 횟수*/
         TextView failValTextView = dashboardView.findViewById(R.id.dayFailValId);
         //int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(appContext, "dailyFail");
         //failValTextView.setText(String.valueOf(todayFailNum));

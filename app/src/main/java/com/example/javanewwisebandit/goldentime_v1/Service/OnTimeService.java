@@ -329,16 +329,17 @@ public class OnTimeService extends Service {
         channel.setShowBadge(false);
         dailyNotificationManager.createNotificationChannel(channel);
 
-        RemoteViews dailyRemoteView = new RemoteViews(getPackageName(), R.layout.notification_daily_loss);
+        RemoteViews dailyRemoteView = new RemoteViews(getPackageName(), R.layout.notification_daily_gain);
         /*어제까지 총 성공/실패 횟수 로드 */
         DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
         int totalLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
-        dailyRemoteView.setTextViewText(R.id.dailynotiTotalLossGoldStatisticsVal, decimalFormat.format(totalLossGold) +"골드 ");
+//        dailyRemoteView.setTextViewText(R.id.dailynotiTotalLossGoldStatisticsVal, decimalFormat.format(totalLossGold) +"골드 ");
+        dailyRemoteView.setTextViewText(R.id.dailynotiTotalGainGoldStatisticsVal, "+ "+decimalFormat.format(totalLossGold) +"골드 획득");
 
         //int yesterdayLossGold = getIncentiveSum(UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getPreviousDateByDateFormat(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
         int yesterdayLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive");
-        dailyRemoteView.setTextViewText(R.id.dailynotiYesterdayGoldStatisticsVal, "- "+decimalFormat.format(yesterdayLossGold)+"골드");
+        dailyRemoteView.setTextViewText(R.id.dailynotiYesterdayGoldStatisticsVal, "+ "+decimalFormat.format(yesterdayLossGold)+"골드");
         //String totalRemainGold = decimalFormat.format(178500 - totalLossGold);
         //dailyRemoteView.setTextViewText(R.id.dailynotiTotalGoldStatisticsVal, totalRemainGold+"골드");
 
@@ -421,12 +422,12 @@ public class OnTimeService extends Service {
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-
         timerNotifyBuilder = new NotificationCompat.Builder(this, Config.ONTIME_ALARM_CHANNEL_ID)
                 .setContentIntent(pendingIntent)
                 .setContent(remoteViews)
                 .setShowWhen(false)
                 .setSmallIcon(R.drawable.ic_monetization_on_24px);
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText(remoteViews));
 
         startForeground(Config.ONTIME_NOTIFICATION_ID, timerNotifyBuilder.build());
     }
@@ -584,6 +585,10 @@ public class OnTimeService extends Service {
 
     // 이게 노티바인듯
     private void startTimer(int timeCount) {
+
+        String usageTimeText = UtilitiesDateTimeProcess.getCurrentTimeHour() + "-" + (UtilitiesDateTimeProcess.getCurrentTimeHour() + 1) + "시 사용시간: ";
+        String usageTime = (String) getNotificationTimerFormat(timeCount);
+        String incentiveText = UtilitiesDateTimeProcess.getCurrentTimeHour() + "-" + (UtilitiesDateTimeProcess.getCurrentTimeHour() + 1) + "시 미션 성공 시: ";
         remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간: ");
         remoteViews.setTextViewText(R.id.notiUsageTime, getNotificationTimerFormat(timeCount));
         remoteViews.setTextViewText(R.id.notiThisIncentive, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 미션 성공 시: ");
@@ -604,16 +609,16 @@ public class OnTimeService extends Service {
         /**
          * test 용
          */
-        remoteViews.setTextViewText(R.id.test1, DecimalFormat.format(todayLossGold)+"골드");
-        remoteViews.setTextViewText(R.id.test2, DecimalFormat.format(totalLossGold)+"골드");
+//        remoteViews.setTextViewText(R.id.test1, DecimalFormat.format(todayLossGold)+"골드");
+//        remoteViews.setTextViewText(R.id.test2, DecimalFormat.format(totalLossGold)+"골드");
 
-
-        /*누적획득*/
-        String totalGainGold = DecimalFormat.format(totalSuccess*500);
         /*오늘획득*/
         String todayGainGold = DecimalFormat.format(todaySuccessNum*500);
+        /*누적획득*/
+        String totalGainGold = DecimalFormat.format(totalSuccess*500);
+
         /* remoteViews 업데이트*/
-        remoteViews.setTextViewText(R.id.notiTotalGainGoldStatisticsVal, "+"+DecimalFormat.format(todayGainGold)+"골드 (+"+DecimalFormat.format(totalGainGold)+"골드)");
+        remoteViews.setTextViewText(R.id.notiTotalGainGoldStatisticsVal, "+"+todayGainGold+"골드 (+"+totalGainGold+"골드)");
         //String remainTotalGold = decimalFormat.format(178500 - totalLossGold);
         //remoteViews.setTextViewText(R.id.notiTotalRemainGoldStatisticsVal, "(총 "+remainTotalGold+"골드 남음)");
 
@@ -627,6 +632,7 @@ public class OnTimeService extends Service {
         /*현재 시간 인센티브 가져오고 세팅*/
         int incentive = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive");
         remoteViews.setTextViewText(R.id.notiThisIncentiveVal, this.getString(R.string.notiThisGainIncentiveString, incentive));
+        String incentiveValue = this.getString(R.string.notiThisGainIncentiveString, incentive);
 
         /*성공률 계산*/
         String context = UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot);
@@ -649,6 +655,14 @@ public class OnTimeService extends Service {
         expectedRate = expectedRate * 100;
         remoteViews.setTextViewText(R.id.notiThisSuccessRate, this.getString(R.string.notiThisSuccessRateString, (int) expectedRate));
 
+        String successRate = this.getString(R.string.notiThisSuccessRateString, (int) expectedRate);
+
+        String bigTextContent = usageTimeText + usageTime + "\n" +
+                incentiveText + incentiveValue + "\n" +
+                "오늘 획득/누적 획득: +" + todayGainGold + "골드 (+" + totalGainGold + "골드)" + "\n" +
+                "성공률: " + successRate;
+
+        timerNotifyBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(bigTextContent));
         timerNotificationManager.notify(Config.ONTIME_NOTIFICATION_ID, timerNotifyBuilder.build());
     }
 

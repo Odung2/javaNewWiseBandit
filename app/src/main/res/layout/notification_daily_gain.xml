@@ -55,15 +55,15 @@
             android:layout_height="wrap_content"
             android:textColor="@color/gainColor"
             android:textSize="13dp"
-            android:text="00,000골드를 획득"/>
+            android:text="00,000 골드 획득"/>
 
-        <TextView
-            android:id="@+id/dailynotiTotalStatisticsText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textDefaultColor"
-            android:textSize="13dp"
-            android:text="하였습니다."/>
+<!--        <TextView-->
+<!--            android:id="@+id/dailynotiTotalStatisticsText2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/textDefaultColor"-->
+<!--            android:textSize="13dp"-->
+<!--            android:text="하였습니다."/>-->
 
     </LinearLayout>
 
@@ -87,24 +87,24 @@
             android:layout_height="wrap_content"
             android:textColor="@color/gainColor"
             android:textSize="13dp"
-            android:text="+ 0,000골드,"/>
+            android:text="+ 0,000 골드 획득"/>
 
-        <TextView
-            android:id="@+id/dailynotiTotalGoldStatisticsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/textDefaultColor"
-            android:textSize="13dp"
-            android:text="총 보유 골드:  "/>
+<!--        <TextView-->
+<!--            android:id="@+id/dailynotiTotalGoldStatisticsText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:textColor="@color/textDefaultColor"-->
+<!--            android:textSize="13dp"-->
+<!--            android:text="총 보유 골드:  "/>-->
 
-        <TextView
-            android:id="@+id/dailynotiTotalGoldStatisticsVal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#AE905E"
-            android:textSize="13dp"
-            android:text="000,000골드"/>
+<!--        <TextView-->
+<!--            android:id="@+id/dailynotiTotalGoldStatisticsVal"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="#AE905E"-->
+<!--            android:textSize="13dp"-->
+<!--            android:text="000,000골드"/>-->
 
     </LinearLayout>
 
