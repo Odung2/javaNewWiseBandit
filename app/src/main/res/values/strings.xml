@@ -41,12 +41,15 @@
     <string name="totalGainMoneyVal">0원</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cardTitleText">%1$s (%2$s - %3$s)</string>
-    <string name="cardDescriptionText">Q. 얼마를 차감한다고 경고했을 때 절제를 잘했을까요?</string>
+<!--    <string name="cardDescriptionText">Q. 얼마를 차감한다고 경고했을 때 절제를 잘했을까요?</string>-->
+    <string name="cardDescriptionText">Q. 얼마를 획득할 수 있을 때 절제를 잘했을까요?</string>
     <!--<string name="likelihoodVal">%1$d%%</string>
     <string name="optimalIncentiveVal">%1$d 골드</string>
     <string name="timeSlotVal">%1$d 개</string>
     <string name="summaryTextVal">%1$d 번 추적한 결과, 차감 골드가 %2$d 골드일 때 핸드폰 사용을 절제할 가능성이 %3$d%%로 가장 높습니다.</string>-->
-    <string name="graphName">차감 금액별 절제 성공률</string>
+<!--    <string name="graphName">차감 금액별 절제 성공률</string>-->
+    <string name="graphName">획득 금액별 절제 성공률</string>
+
 
     <string name="todayLossTotalLoss">-%1$d골드(-%2$d골드)</string>
     <string name="todayGainTotalLoss">+%1$d골드(+%2$d골드)</string>
