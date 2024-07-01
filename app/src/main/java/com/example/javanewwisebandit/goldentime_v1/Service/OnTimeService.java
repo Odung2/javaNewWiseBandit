@@ -535,44 +535,6 @@ public class OnTimeService extends Service {
         }
     }
 
-//    private void saveFailDataInLocalDB() {
-//        Log.d("AA", "Room DB debugging, failure, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive"));
-//
-//        String dateStr = UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()));
-//        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(getApplicationContext(), currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "incentive"), false, dateStr);
-//        Log.d("AA", "Insert incentive Thread state: "+thread.getState());
-//        thread.start();
-//        try {
-//            thread.join();
-//        } catch (InterruptedException e) {
-//            //TODO: handle exception
-//            return;
-//        }
-//
-//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref( this, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), ""));
-//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
-//    }
-
-//    /**Gain Frame**/
-//    private void saveSuccessDataInLocalDB() {
-//        Log.d("AA", "Room DB debugging, failure, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive"));
-//
-//        String dateStr = UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()));
-//        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(getApplicationContext(), currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "incentive"), true, dateStr);
-//        Log.d("AA", "Insert incentive Thread state: "+thread.getState());
-//        thread.start();
-//        try {
-//            thread.join();
-//        } catch (InterruptedException e) {
-//            //TODO: handle exception
-//            return;
-//        }
-//
-//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref( this, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), ""));
-//        UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(this, "TodayIncentive", UtilitiesLocalDBProcess.getIncentiveSum(getApplicationContext(), UtilitiesDateTimeProcess.getDateByDBDateFormat(UtilitiesDateTimeProcess.convertedDateStr(UtilitiesDateTimeProcess.getTodayDateByDateFormat()))));
-//    }
-
-
     private void updateSuccessFailStatistics() {
         /*오늘 실패 횟수 증가 */
         int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
@@ -583,88 +545,7 @@ public class OnTimeService extends Service {
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(),"totalFail",++totalFailNum);
     }
 
-    // 이게 노티바인듯
-//    private void startTimer(int timeCount) {
-//
-//        String usageTimeText = UtilitiesDateTimeProcess.getCurrentTimeHour() + "-" + (UtilitiesDateTimeProcess.getCurrentTimeHour() + 1) + "시 사용시간: ";
-//        String usageTime = (String) getNotificationTimerFormat(timeCount);
-//        String incentiveText = UtilitiesDateTimeProcess.getCurrentTimeHour() + "-" + (UtilitiesDateTimeProcess.getCurrentTimeHour() + 1) + "시 미션 성공 시: ";
-//        remoteViews.setTextViewText(R.id.notiUsageTimeText, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 사용시간: ");
-//        remoteViews.setTextViewText(R.id.notiUsageTime, getNotificationTimerFormat(timeCount));
-//        remoteViews.setTextViewText(R.id.notiThisIncentive, UtilitiesDateTimeProcess.getCurrentTimeHour()+"-"+(UtilitiesDateTimeProcess.getCurrentTimeHour()+1)+"시 미션 성공 시: ");
-//
-//        /*오늘 차감/누적 차감 데이터 로드 */
-//        int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
-//        int totalFail = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalFail");
-//
-//
-//        /*오늘 획득/누적 획득 데이터 로드 */
-//        int todaySuccessNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailySuccess");
-//        int totalSuccess = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "totalSuccess");
-//        DecimalFormat DecimalFormat = new DecimalFormat("###,###");
-//
-//        /*오늘 차감(누적차감)*/
-//        int todayLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive");
-//        int totalLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TotalIncentive");
-//        /**
-//         * test 용
-//         */
-////        remoteViews.setTextViewText(R.id.test1, DecimalFormat.format(todayLossGold)+"골드");
-////        remoteViews.setTextViewText(R.id.test2, DecimalFormat.format(totalLossGold)+"골드");
-//
-//        /*오늘획득*/
-//        String todayGainGold = DecimalFormat.format(todaySuccessNum*500);
-//        /*누적획득*/
-//        String totalGainGold = DecimalFormat.format(totalSuccess*500);
-//
-//        /* remoteViews 업데이트*/
-//        remoteViews.setTextViewText(R.id.notiTotalGainGoldStatisticsVal, "+"+todayGainGold+"골드 (+"+totalGainGold+"골드)");
-//        //String remainTotalGold = decimalFormat.format(178500 - totalLossGold);
-//        //remoteViews.setTextViewText(R.id.notiTotalRemainGoldStatisticsVal, "(총 "+remainTotalGold+"골드 남음)");
-//
-//        /*오늘차감*/
-////        int todayLossGold = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "TodayIncentive");
-////        remoteViews.setTextViewText(R.id.notiTodayLossGoldStatisticsVal, "- "+todayLossGold+"골드,");
-////
-////        /*남은골드 세팅*/
-////        goldSetup(todayFailNum, "#bebebe");
-//
-//        /*현재 시간 인센티브 가져오고 세팅*/
-//        int incentive = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(this, "incentive");
-//        remoteViews.setTextViewText(R.id.notiThisIncentiveVal, this.getString(R.string.notiThisGainIncentiveString, incentive));
-//        String incentiveValue = this.getString(R.string.notiThisGainIncentiveString, incentive);
-//
-//        /*성공률 계산*/
-//        String context = UtilitiesDateTimeProcess.getContextByTimeSlot(currentTimeSlot);
-//        AppDatabaseExpectThread ethread = new AppDatabaseExpectThread(context, this);
-//        ethread.start();
-//        try {
-//            ethread.join();
-//        } catch (InterruptedException e) {
-//            //TODO: handle exception
-//        }
-//        List<ViewTuple> result = ethread.getSelectResult();
-//
-//        double expectedRate = 0;
-//        for (ViewTuple tuple: result){
-//            if (incentive == tuple.incentive) {
-//                expectedRate = (double) tuple.numSuccess / tuple.numTotalTry;
-//                break;
-//            }
-//        }
-//        expectedRate = expectedRate * 100;
-//        remoteViews.setTextViewText(R.id.notiThisSuccessRate, this.getString(R.string.notiThisSuccessRateString, (int) expectedRate));
-//
-//        String successRate = this.getString(R.string.notiThisSuccessRateString, (int) expectedRate);
-//
-//        String bigTextContent = usageTimeText + usageTime + "\n" +
-//                incentiveText + incentiveValue + "\n" +
-//                "오늘 획득/누적 획득: +" + todayGainGold + "골드 (+" + totalGainGold + "골드)" + "\n" +
-//                "성공률: " + successRate;
-//
-//        timerNotifyBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(bigTextContent));
-//        timerNotificationManager.notify(Config.ONTIME_NOTIFICATION_ID, timerNotifyBuilder.build());
-//    }
+    // 노티바
     private void startTimer(int timeCount) {
 
         String usageTimeText = UtilitiesDateTimeProcess.getCurrentTimeHour() + "-" + (UtilitiesDateTimeProcess.getCurrentTimeHour() + 1) + "시 사용시간: ";

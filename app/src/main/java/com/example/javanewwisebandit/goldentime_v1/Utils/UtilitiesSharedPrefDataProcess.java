@@ -438,7 +438,7 @@ public class UtilitiesSharedPrefDataProcess {
                 saveSuccessDataInLocalDB(context, dateStr, usageTime);  // 성공 데이터베이스 저장
             } else {
                 failNum++;
-//                saveFailDataInLocalDB(context, dateStr, usageTime);  // 실패 데이터베이스 저장
+                saveFailDataInLocalDB(context, dateStr, usageTime);  // 실패 데이터베이스 저장
             }
 
             JSONObject statistics = new JSONObject();
@@ -463,6 +463,32 @@ public class UtilitiesSharedPrefDataProcess {
                 UtilitiesDateTimeProcess.getCurrentTimeHour(),
                 getIntegerSharedPrefData(context, "incentive"),
                 true,  // 성공으로 저장
+                dateStr
+        );
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            // 예외 처리
+            e.printStackTrace();
+        }
+
+        // 총 인센티브와 오늘 인센티브 값을 SharedPreferences에 저장
+        int todayIncentive = UtilitiesLocalDBProcess.getIncentiveSum(context, dateStr);
+        setIntegerDataToSharedPref(context, "TotalIncentive", UtilitiesLocalDBProcess.getIncentiveSum(context, ""));
+        setIncentiveForDate(context, dateStr, todayIncentive);
+    }
+
+    private static void saveFailDataInLocalDB(Context context, String dateStr, int usageTime) {
+        Log.d("AA", "Room DB debugging, success, targeting incentive: " + getIntegerSharedPrefData(context, "incentive"));
+
+        // AppDatabaseInsertThread를 사용하여 데이터베이스에 데이터 삽입
+        AppDatabaseInsertThread thread = new AppDatabaseInsertThread(
+                context,
+                UtilitiesDateTimeProcess.getCurrentTimeHour(),
+                getIntegerSharedPrefData(context, "incentive"),
+                false,  // 성공으로 저장
                 dateStr
         );
 
