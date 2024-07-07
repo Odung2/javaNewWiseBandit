@@ -32,14 +32,12 @@ import com.example.javanewwisebandit.goldentime_v1.Config.Config;
 import com.example.javanewwisebandit.goldentime_v1.Incentive;
 import com.example.javanewwisebandit.goldentime_v1.Receiver.BackgroundReceiver;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.AppDatabaseExpectThread;
-import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.AppDatabaseInsertThread;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.AppDatabaseMABThread;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.UpdateTuple;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.AppDatabase.ViewTuple;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.GoldenTimeDB.GoldenTimeDB;
 import com.example.javanewwisebandit.goldentime_v1.RoomDB.GoldenTimeDB.UserInfo;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesDateTimeProcess;
-import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesLocalDBProcess;
 import com.example.javanewwisebandit.goldentime_v1.Utils.UtilitiesSharedPrefDataProcess;
 
 import org.json.JSONException;
@@ -525,7 +523,7 @@ public class OnTimeService extends Service {
                             showTimeoutNotification();  // 10분 경고
 //                            saveFailDataInLocalDB(); // incentive 값만 저장
 //                            saveSuccessDataInLocalDB(); // GainFrame
-                            updateSuccessFailStatistics(); // 실패 횟수 증가
+//                            updateSuccessFailStatistics(); // 실패 횟수 증가 -> 주석 처리한 이유, 해당 시간 지난 후 UtilitiesSharedPrefDataProcess.java에서 updateDashboardUsageStatics에서 fail 데이터 기록
                             startTimer(screenOnTimeCount);
                         }
                     }
@@ -537,6 +535,7 @@ public class OnTimeService extends Service {
 
     private void updateSuccessFailStatistics() {
         /*오늘 실패 횟수 증가 */
+        // FIXME : 현재 증가 안 함.
         int todayFailNum = UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(getApplicationContext(), "dailyFail");
         UtilitiesSharedPrefDataProcess.setIntegerDataToSharedPref(getApplicationContext(),"dailyFail",++todayFailNum);
 

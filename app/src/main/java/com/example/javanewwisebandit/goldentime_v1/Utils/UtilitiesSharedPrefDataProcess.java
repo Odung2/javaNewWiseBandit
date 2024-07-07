@@ -196,24 +196,31 @@ public class UtilitiesSharedPrefDataProcess {
             statistics.put("incentive", UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(context, "incentive"));
 
 
-            if(!(currentTimeSlot >= 2 && currentTimeSlot <= 8)){
-                Log.d(TAG, "Room DB debugging, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(context, "incentive"));
-
-                if(isSuccess){
-                    AppDatabaseInsertThread thread = new AppDatabaseInsertThread(context, currentTimeSlot, UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(context, "incentive"), true, dateStr);
-                    Log.d("AA", "Insert incentive Thread state: "+thread.getState());
-                    thread.start();
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        //TODO: handle exception
-                        Log.d("AA", e.toString());
-                    }
-                } else {
-                    Log.d("AA", "Room DB Debugging, 이미 저장된 데이터(fail)");
-                }
-
-            }
+//            if(!(currentTimeSlot >= 2 && currentTimeSlot <= 8)){
+//                Log.d(TAG, "Room DB debugging, targeting incentive: " + UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(context, "incentive"));
+//
+//                if(isSuccess){
+//                    AppDatabaseInsertThread thread = new AppDatabaseInsertThread(
+//                            context,
+//                            currentTimeSlot,
+//                            UtilitiesSharedPrefDataProcess.getIntegerSharedPrefData(context, "incentive"),
+//                            true,
+//                            dateStr
+//                    );
+//
+//                    Log.d("AA", "Insert incentive Thread state: "+thread.getState());
+//                    thread.start();
+//                    try {
+//                        thread.join();
+//                    } catch (InterruptedException e) {
+//                        //TODO: handle exception
+//                        Log.d("AA", e.toString());
+//                    }
+//                } else {
+//                    Log.d("AA", "Room DB Debugging, 이미 저장된 데이터(fail)");
+//                }
+//
+//            }
 
             jsonArray.put(statistics);
             tmpObj.put(dateStr, jsonArray);
@@ -273,10 +280,8 @@ public class UtilitiesSharedPrefDataProcess {
                 }
                 else {
                     failNum = getIntegerSharedPrefData(context, "totalFail");
-                    if(!isAppChanged) setIntegerDataToSharedPref(context,"totalFail", ++failNum);
+                    if(isAppChanged) setIntegerDataToSharedPref(context,"totalFail", ++failNum);
                 }
-
-
 
                 JSONObject statistics = new JSONObject();
                 statistics.put("slot", timeSlot);
@@ -353,7 +358,7 @@ public class UtilitiesSharedPrefDataProcess {
                 }
                 else {
                     failNum = getIntegerSharedPrefData(context, "totalFail");
-                    if(!isAppChanged) setIntegerDataToSharedPref(context,"totalFail", ++failNum);
+                    if(isAppChanged) setIntegerDataToSharedPref(context,"totalFail", ++failNum);
                 }
 
 
@@ -435,7 +440,7 @@ public class UtilitiesSharedPrefDataProcess {
             boolean isSuccess = calculateUsageTimeSuccess(usageTime);
             if (isSuccess) {
                 successNum++;
-                saveSuccessDataInLocalDB(context, dateStr, usageTime);  // 성공 데이터베이스 저장
+                saveSuccessDataInLocalDB(context, dateStr, usageTime);  // 성공 데이터베이스 저장  -> 주석처리한 이유, updatePreviousTimeSlotUsage에서 성공 기록을 처리하고 있음... 하...
             } else {
                 failNum++;
                 saveFailDataInLocalDB(context, dateStr, usageTime);  // 실패 데이터베이스 저장
